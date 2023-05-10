@@ -62,6 +62,6 @@ header {
     font-weight: 300;
 }
 
-.insert-form, .update-form {
+.insert-form, .update-form, .search-box {
     max-width: fit-content;
 }
