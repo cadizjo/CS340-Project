@@ -16,12 +16,43 @@ app.use(express.static("public/"))              // all files in public directory
     ROUTES
 */
 app.get('/', function(req, res) {
-    res.render('index');    
-});                                         
+    res.status(200).render('index');    
+});              
+
+app.get('/projects', function(req, res) {
+    res.status(200).render('projects');
+});
+
+app.get('/students', function(req, res) {
+    res.status(200).render('students');
+});
+
+app.get('/assignments', function(req, res) {
+    res.status(200).render('assignments');
+});
+
+app.get('/roles', function(req, res) {
+    res.status(200).render('roles');
+});
+
+app.get('/tasks', function(req, res) {
+    res.status(200).render('tasks');
+});
+
+app.get('/citations', function(req, res) {
+    res.status(200).render('citations');
+});
+
+app.get("*", function (req, res) {
+    console.log("\n  -- 404!");
+    res.status(404).send('Error 404 - Page not found');
+});
 
 /*
     LISTENER
 */
-app.listen(PORT, function() {        
+app.listen(PORT, function(err) {        
+    if (err)
+        throw err
     console.log('Express started on http://flip2.engr.oregonstate.edu:' + PORT + '; press Ctrl-C to terminate.')
 });
