@@ -86,7 +86,7 @@ INSERT INTO Projects (title, description, start_date, end_date, is_active, is_co
 VALUES 
 ('Biology Group Final', 'Final group research project for biology that will be presented at the end of the school year.', '2023-04-05', NULL, 1, 1),
 ('Spring Science Fair Project', 'Conduct research on plants and create board before May to showcase at the Spring Science Fair.', '2023-01-01', NULL, 1, 0),
-('Arts & Crafts Project', 'Personal art project that will be worked on during the summer for an art showcase.', NULL, NULL, 0, 0);
+('Arts and Crafts Project', 'Personal art project that will be worked on during the summer for an art showcase.', NULL, NULL, 0, 0);
 
 -- Insert example data to Students
 INSERT INTO Students (f_name, l_name, email, phone)
