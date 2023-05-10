@@ -17,7 +17,7 @@ DELETE FROM Projects WHERE project_id = :project_id_selected_from_browse_project
 -- ** STUDENTS PAGE ** --
 
 -- get all students and their details for 'Browse Students' form
-SELECT * FROM Students ORDER BY student_id;
+SELECT CONCAT(f_name, ' ', l_name) AS name, email, phone FROM Students ORDER BY student_id;
 
 -- add a new student for 'Add Student' form
 INSERT INTO Students(f_name, l_name, email, phone) VALUES
