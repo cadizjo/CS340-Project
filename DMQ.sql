@@ -27,7 +27,7 @@ INSERT INTO Students(f_name, l_name, email, phone) VALUES
 -- ** ASSIGNMENTS PAGE ** --
 
 -- get all assignments (which students correspond to which projects) for 'Browse Student Assignments' form
-SELECT assignment_id, Projects.title, CONCAT(Students.f_name, ' ', Students.l_name) AS name 
+SELECT assignment_id, Projects.title AS project_title, CONCAT(Students.f_name, ' ', Students.l_name) AS name 
 FROM Assignments 
 INNER JOIN Projects ON Assignments.project_id = Projects.project_id
 INNER JOIN Students ON Assignments.student_id = Students.student_id
@@ -56,13 +56,16 @@ SELECT * FROM Roles ORDER BY role_id;
 INSERT INTO Roles(title) VALUES (:title_input);
 
 -- get all Roles associated w/an Assignment for 'Browse Assigned Roles' form
-SELECT Assignments.assignment_id AS id, Projects.title, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Roles.title 
+SELECT Assignments.assignment_id AS assignment_id, Projects.title AS project_title, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Roles.title AS role
 FROM Roles
 INNER JOIN Assignments_has_Roles ON Roles.role_id = Assignments_has_Roles.role_id
 INNER JOIN Assignments ON Assignments_has_Roles.assignment_id = Assignments.assignment_id
 INNER JOIN Projects ON Assignments.project_id = Projects.project_id
 INNER JOIN Students ON Assignments.student_id = Students.student_id
-ORDER BY id;
+ORDER BY assignment_id;
+
+-- get all role ids and role titles to populate role dropdown
+SELECT role_id, title FROM Roles ORDER BY role_id;
 
 -- associate an assignment with a role for 'Add Role to Student' form
 INSERT INTO Assignments_has_Roles(assignment_id, role_id) VALUES
@@ -95,13 +98,13 @@ INSERT INTO Citations(title, source, author, url) VALUES
 (:title_input, :source_input, :author_input, :url_input);
 
 -- get all Citations associated w/a Task for 'Browse Task Citations' form
-SELECT Citations.citation_id AS id, Projects.title, Tasks.title, Citations.title 
+SELECT Projects.project_id AS project_id, Projects.title AS project_title, Tasks.title AS task, Citations.url
 FROM Citations
 INNER JOIN Tasks_has_Citations ON Citations.citation_id = Tasks_has_Citations.citation_id
 INNER JOIN Tasks ON Tasks_has_Citations.task_id = Tasks.task_id
 INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id
 INNER JOIN Projects ON Assignments.project_id = Projects.project_id
-ORDER BY id;
+ORDER BY project_id;
 
 -- associate a task with a citation for 'Add Citation to Task' form
 INSERT INTO Tasks_has_Citations(task_id, citation_id) VALUES

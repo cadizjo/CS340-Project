@@ -59,6 +59,10 @@ header {
 }
 
 .crud-title {
+    font-weight: 500;
+}
+
+.crud-box, p {
     font-weight: 300;
 }
 

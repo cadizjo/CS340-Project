@@ -3,18 +3,6 @@
 
     <h3 class="crud-title">Browse Roles </h3>
     <div class="crud-box">
-        <form class="search-box">
-            <fieldset class="fields">
-                <label>Role</label> <input type="search" name="role_title">
-            </fieldset>
-            <input class="btn" type="submit" value="Search">
-            <input class="cancel-btn" type="button" value="Cancel">
-        </form>
-    </div>
-
-    <p>&nbsp;</p>
-
-    <div class="crud-box">
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>ID</th>
@@ -32,17 +20,20 @@
                 <td>3</td>
                 <td></td>
             </tr>
+            <tr>
+                <td>4</td>
+                <td></td>
+            </tr>
         </table>
     </div>
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Roles </h3>
+    <h3 class="crud-title">Add Role</h3>
     <div class="crud-box">
         <form class="insert-form">
             <fieldset class="fields">
                 <label>Role Title</label> <input type="text" name="role_title">
-                <label>Citation ID</label> <input type="number" name="role_id">
             </fieldset>
             <input class="btn" type="submit" value="Submit">
             <input class="cancel-btn" type="button" value="Cancel">
@@ -51,36 +42,62 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Roles for a Student </h3>
-    <div class="crud-box">
-        <form class="search-box">
-            <fieldset class="fields">
-                <label>Student ID</label> <input type="number" name="role_title">
-            </fieldset>
-            <input class="btn" type="submit" value="Search">
-            <input class="cancel-btn" type="button" value="Cancel">
-        </form>
-    </div>
-    <p>&nbsp;</p>
-
+    <h3 class="crud-title">Browse Assigned Roles </h3>
     <div class="crud-box">
         <table class="search-results" border="1" cellpadding="5">
             <tr>
-                <th>ID</th>
+                <th>Assignment ID</th>
+                <th>Project Title</th>
+                <th>Student Name</th>
                 <th>Role Title</th>
             </tr>
             <tr>
                 <td>1</td>
                 <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td>2</td>
+                <td></td>
+                <td></td>
                 <td></td>
             </tr>
             <tr>
                 <td>3</td>
                 <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     </div>
+
+    <p>&nbsp;</p>
+
+    <h3 class="crud-title">Add Role to Assignment</h3>
+    <div class="crud-box">
+        <form class="search-box">
+            <fieldset class="fields">
+                <label>Assignment ID</label> <input type="number" name="assignment_id">
+                <label>Role Title</label> <select name="role_id">
+                    <option value="0" selected>&nbsp;</option>
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option value="3"></option>
+                    <option value="4"></option>
+                </select>
+            </fieldset>
+            <input class="btn" type="submit" value="Submit">
+            <input class="cancel-btn" type="button" value="Cancel">
+        </form>
+    </div>
+
+    <p>&nbsp;</p>
+
 </main>
