@@ -49,6 +49,12 @@ DELETE FROM Assignments WHERE assignment_id = :assignment_id_from_delete_form;
 
 -- ** ROLES PAGE ** --
 
+-- get all Roles and their details for 'Browse Roles' form
+SELECT title FROM Roles ORDER BY role_id;
+
+-- add a new Role for 'Add Role' form
+INSERT INTO Roles(title) VALUES
+(:title_input);
 
 -- ** TASKS PAGE ** --
 
@@ -67,3 +73,9 @@ INSERT INTO Tasks(title, description, due_date, is_complete, has_citations, assi
 
 
 -- ** CITATIONS PAGE ** --
+-- get all Citations and their details for 'Browse Citations' form
+SELECT title,source,author,url FROM Citations ORDER BY citation_id;
+
+-- add a new Citation for 'Add Citation' form
+INSERT INTO Citations(title,source,author,url) VALUES
+(:title_input, source_input,author_input,url_input);
