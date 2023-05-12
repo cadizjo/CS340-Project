@@ -49,17 +49,26 @@ DELETE FROM Assignments WHERE assignment_id = :assignment_id_from_delete_form;
 
 -- ** ROLES PAGE ** --
 
--- get all Roles and their details for 'Browse Roles' form
-SELECT title FROM Roles ORDER BY role_id;
+-- get all Roles and its title for 'Browse Roles' form
+SELECT * FROM Roles ORDER BY role_id;
 
 -- add a new Role for 'Add Role' form
-INSERT INTO Roles(title) VALUES
-(:title_input);
+INSERT INTO Roles(title) VALUES (:title_input);
 
--- get all Roles associated w/a Assignment for 'Assignments_has_Roles' search functionality
-SELECT role_id
-FROM Assignments_has_Roless
-WHERE assignment_id = <>;
+-- get all Roles associated w/an Assignment for 'Browse Assigned Roles' form
+SELECT Assignments.assignment_id AS id, Projects.title, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Roles.title 
+FROM Roles
+INNER JOIN Assignments_has_Roles ON Roles.role_id = Assignments_has_Roles.role_id
+INNER JOIN Assignments ON Assignments_has_Roles.assignment_id = Assignments.assignment_id
+INNER JOIN Projects ON Assignments.project_id = Projects.project_id
+INNER JOIN Students ON Assignments.student_id = Students.student_id
+ORDER BY id;
+
+-- associate an assignment with a role for 'Add Role to Student' form
+INSERT INTO Assignments_has_Roles(assignment_id, role_id) VALUES
+(:assignment_id, :role_id);
+
+
 -- ** TASKS PAGE ** --
 
 -- get all tasks associated w/a Project and Student for 'Browse Tasks' search functionality
@@ -77,14 +86,23 @@ INSERT INTO Tasks(title, description, due_date, is_complete, has_citations, assi
 
 
 -- ** CITATIONS PAGE ** --
+
 -- get all Citations and their details for 'Browse Citations' form
-SELECT title,source,author,url FROM Citations ORDER BY citation_id;
+SELECT * FROM Citations ORDER BY citation_id;
 
 -- add a new Citation for 'Add Citation' form
-INSERT INTO Citations(title,source,author,url) VALUES
-(:title_input, source_input,author_input,url_input);
+INSERT INTO Citations(title, source, author, url) VALUES
+(:title_input, :source_input, :author_input, :url_input);
 
--- get all Citations associated w/a Task for 'Tasks_has_Citations' search functionality
-SELECT citation_id
-FROM Tasks_has_Citations
-WHERE task_id = <>;
+-- get all Citations associated w/a Task for 'Browse Task Citations' form
+SELECT Citations.citation_id AS id, Projects.title, Tasks.title, Citations.title 
+FROM Citations
+INNER JOIN Tasks_has_Citations ON Citations.citation_id = Tasks_has_Citations.citation_id
+INNER JOIN Tasks ON Tasks_has_Citations.task_id = Tasks.task_id
+INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id
+INNER JOIN Projects ON Assignments.project_id = Projects.project_id
+ORDER BY id;
+
+-- associate a task with a citation for 'Add Citation to Task' form
+INSERT INTO Tasks_has_Citations(task_id, citation_id) VALUES
+(:task_id, :citation_id);
