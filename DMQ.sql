@@ -56,6 +56,10 @@ SELECT title FROM Roles ORDER BY role_id;
 INSERT INTO Roles(title) VALUES
 (:title_input);
 
+-- get all Roles associated w/a Assignment for 'Assignments_has_Roles' search functionality
+SELECT role_id
+FROM Assignments_has_Roless
+WHERE assignment_id = <>;
 -- ** TASKS PAGE ** --
 
 -- get all tasks associated w/a Project and Student for 'Browse Tasks' search functionality
@@ -79,3 +83,8 @@ SELECT title,source,author,url FROM Citations ORDER BY citation_id;
 -- add a new Citation for 'Add Citation' form
 INSERT INTO Citations(title,source,author,url) VALUES
 (:title_input, source_input,author_input,url_input);
+
+-- get all Citations associated w/a Task for 'Tasks_has_Citations' search functionality
+SELECT citation_id
+FROM Tasks_has_Citations
+WHERE task_id = <>;
