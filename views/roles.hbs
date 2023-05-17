@@ -1,8 +1,8 @@
 <main id="citations-main-box" class="page-box">
     <h2 class="page-title">Roles</h2>
 
-    <h3 class="crud-title">Browse Roles </h3>
     <div class="crud-box">
+        <h3 class="crud-title">Browse Roles </h3>
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>Role ID</th>
@@ -29,21 +29,23 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Role</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Add Role</h3>
         <form class="insert-form">
             <fieldset class="fields">
                 <label>Role Title</label> <input type="text" name="role_title">
             </fieldset>
-            <input class="btn" type="submit" value="Submit">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <div class="buttons">
+                <input class="accept-btn" type="submit" value="Submit">
+                <input class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form>
     </div>
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Browse Assigned Roles </h3>
     <div class="crud-box">
+        <h3 class="crud-title">Browse Assigned Roles </h3>
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>Assignment ID</th>
@@ -80,8 +82,8 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Role to Assignment</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Add Role to Assignment</h3>
         <form class="search-box">
             <fieldset class="fields">
                 <label>Assignment ID</label> <input type="number" name="assignment_id">
@@ -93,8 +95,10 @@
                     <option value="4">Resource Manager</option>
                 </select>
             </fieldset>
-            <input class="btn" type="submit" value="Submit">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <div class="buttons">
+                <input class="accept-btn" type="submit" value="Submit">
+                <input class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form>
     </div>
 

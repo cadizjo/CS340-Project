@@ -1,8 +1,9 @@
+<div id="popup-backdrop" class="hidden"></div>
 <main id="projects-main-box" class="page-box">
     <h2 class="page-title">Projects</h2>
     
-    <h3 class="crud-title">Browse Projects</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Browse Projects</h3>
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>Project ID</th>
@@ -22,8 +23,7 @@
                 <td>NULL</td>
                 <td>YES</td>
                 <td>YES</td>
-                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
-            </tr>
+                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>            </tr>
             <tr>
                 <td>2</td>
                 <td>Spring Science Fair Project</td>
@@ -32,8 +32,7 @@
                 <td>NULL</td>
                 <td>YES</td>
                 <td>NO</td> 
-                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
-            </tr>
+                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>            </tr>
             <tr>
                 <td>3</td>
                 <td>Arts and Crafts Project</td>
@@ -42,15 +41,14 @@
                 <td>NULL</td>
                 <td>NO</td>
                 <td>NO</td>
-                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
-            </tr>
+                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>            </tr>
         </table>
     </div>
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Project</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Add Project</h3>
         <form class="insert-form">
             <fieldset class="fields">
                 <label>Title</label> <input type="text" name="project_title">
@@ -60,9 +58,13 @@
                 <label>Active?</label> <input type="checkbox" name="is-active" checked>
                 <label>Collaborative?</label> <input type="checkbox" name="is-collaborative">
             </fieldset>
-            <input class="btn" type="submit" value="Submit">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <div class="buttons">
+                <input class="accept-btn" type="submit" value="Submit">
+                <input class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form> 
     </div>
+
+    {{> deletePopup}}
 
 </main>

@@ -1,8 +1,9 @@
+<div id="popup-backdrop" class="hidden"></div>
 <main id="assignments-main-box" class="page-box">
     <h2 class="page-title">Assignments</h2>
 
-    <h3 class="crud-title">Browse Student Assignments</h3>
-    <div class="crud-box">
+    <div id="browse-assignment" class="crud-box">
+        <h3 class="crud-title">Browse Student Assignments</h3>
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>Assignment ID</th>
@@ -15,61 +16,63 @@
                 <td>1</td>
                 <td>Eric Saylor</td>
                 <td>Biology Group Final</td>
-                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
-                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
+                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
+                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>Dana Holt</td>
                 <td>Biology Group Final</td>
-                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
-                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
+                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
+                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
             </tr>
             <tr>
                 <td>3</td>
                 <td>Lillian Waldo</td>
                 <td>Spring Science Fair Project</td>
-                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
-                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
+                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
+                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
             </tr>
             <tr>
                 <td>4</td>
                 <td>Dana Holt</td>
                 <td>Arts and Crafts Project</td>
-                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
-                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
+                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
+                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
             </tr>
         </table>
     </div>
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Project to Student</h3>
-    <div class="crud-box">
+    <div id="add-assignment" class="crud-box">
+        <h3 class="crud-title">Add Project to Student</h3>
         <form class="insert-form">
             <fieldset class="fields">
                 <label>Student Email</label> <input type="email" name="email">
                 <label>Project ID</label> <input type="number" name="project_id" placeholder="NULL" value="NULL">
             </fieldset>
-            <input class="btn" type="submit" value="Submit">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <div class="buttons">
+                <input class="accept-btn" type="submit" value="Submit">
+                <input class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form> 
     </div>
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Edit Student Assignment</h3>
-    <div class="crud-box">
+    <div id="edit-assignment" class="hidden" class="crud-box">
+        <h3 class="crud-title">Edit Student Assignment</h3>
         <form class="update-form">
-            <fieldset class="fields">
-                <label>Student Email</label> <input type="email" name="email">
-                <label>Project ID</label> <input type="number" value="" name="project_id" placeholder="NULL" value="NULL">
-            </fieldset>
-            <input class="btn" type="submit" value="Update">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <label>Student Email</label> <input id="email-input" type="email" name="email">
+            <label>Project ID</label> <input id="project-id-input" type="number" name="project_id" placeholder="NULL" value="NULL">
+            <div class="buttons">
+                <input id="edit-accept-btn" class="accept-btn" type="submit" value="Update">
+                <input id="edit-cancel-btn" class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form> 
     </div>
 
-    <p>&nbsp;</p>
+    {{> deletePopup}}
 
 </main>

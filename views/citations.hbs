@@ -1,8 +1,8 @@
 <main id="citations-main-box" class="page-box">
     <h2 class="page-title">Citations</h2>
 
-    <h3 class="crud-title">Browse Citations</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Browse Citations</h3>
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>Citation ID</th>
@@ -37,8 +37,8 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Citation</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Add Citation</h3>
         <form class="insert-form">
             <fieldset class="fields">
                 <label>Title</label> <input type="text" name="citation_title">
@@ -46,15 +46,17 @@
                 <label>Author</label> <input type="text" name="author">
                 <label>URL</label> <input type="url" name="url">
             </fieldset>
-            <input class="btn" type="submit" value="Submit">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <div class="buttons">
+                <input class="accept-btn" type="submit" value="Submit">
+                <input class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form>
     </div>
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Browse Task Citations</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Browse Task Citations</h3>
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>Task ID</th>
@@ -91,15 +93,17 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Citation to Task</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Add Citation to Task</h3>
         <form class="search-box">
             <fieldset class="fields">
                 <label>Task ID</label> <input type="number" name="task_id">
                 <label>Citation ID</label> <input type="number" name="citation_id">
             </fieldset>
-            <input class="btn" type="submit" value="Submit">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <div class="buttons">
+                <input class="accept-btn" type="submit" value="Submit">
+                <input class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form>
     </div>
 

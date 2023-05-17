@@ -10,6 +10,7 @@ var exphbs = require('express-handlebars');     // Import express-handlebars
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 app.use(express.static("public/"))              // all files in public directory can be viewed as static files
+app.use(express.json())                         // to read JSON string objects
                 
 
 /*
@@ -41,6 +42,18 @@ app.get('/tasks', function(req, res) {
 
 app.get('/citations', function(req, res) {
     res.status(200).render('citations');
+});
+
+app.post("/updateAssignment", function (req, res) {
+    console.log("\nUpdate Assignment ID: ", req.body.id)
+});
+
+app.post("/deleteAssignment", function (req, res) {
+    console.log("\nDelete Assignment ID: ", req.body.id)
+});
+
+app.post("/deleteProject", function (req, res) {
+    console.log("\nDelete Project ID: ", req.body.id)
 });
 
 app.get("*", function (req, res) {

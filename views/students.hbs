@@ -1,8 +1,8 @@
 <main id="students-main-box" class="page-box">
     <h2 class="page-title">Students</h2>
     
-    <h3 class="crud-title">Browse Students</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Browse Students</h3>
         <table class="search-results" border="1" cellpadding="5">
             <tr>
                 <th>Student ID</th>
@@ -39,8 +39,8 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Student</h3>
     <div class="crud-box">
+        <h3 class="crud-title">Add Student</h3>
         <form class="insert-form">
             <fieldset class="fields">
                 <label>First Name</label> <input type="text" name="f_name">
@@ -48,8 +48,10 @@
                 <label>Email</label> <input type="email" name="email">
                 <label>Phone Number</label> <input type="tel" name="phone">
             </fieldset>
-            <input class="btn" type="submit" value="Submit">
-            <input class="cancel-btn" type="button" value="Cancel">
+            <div class="buttons">
+                <input class="accept-btn" type="submit" value="Submit">
+                <input class="cancel-btn" type="button" value="Cancel">
+            </div>
         </form> 
     </div>
 
