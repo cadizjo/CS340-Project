@@ -1,13 +1,11 @@
 <main id="tasks-main-box" class="page-box">
     <h2 class="page-title">Tasks</h2>
     
-    <h3 class="crud-title">Browse Tasks</h3>
+    <h3 class="crud-title">Browse Assigned Tasks</h3>
     <div class="crud-box">
         <form class="search-box">
             <fieldset class="fields">
-                <label>Project Title</label> <input type="search" name="project_title">
-                <label>Student First Name</label> <input type="search" name="f_name">
-                <label>Student Last Name</label> <input type="search" name="l_name">
+                <label>Student Email</label> <input type="email" name="email">
             </fieldset>
             <input class="btn" type="submit" value="Search">
             <input class="cancel-btn" type="button" value="Cancel">
@@ -19,9 +17,9 @@
     <div class="crud-box">
         <table class="search-results" border="1" cellpadding="5">
             <tr>
-                <th>ID</th>
-                <th>Project Title</th>
+                <th>Task ID</th>
                 <th>Student Name</th>
+                <th>Project Title</th>
                 <th>Task Title</th>
                 <th>Description</th>
                 <th>Due Date</th>
@@ -30,8 +28,8 @@
             </tr>
             <tr>
                 <td>1</td>
-                <td>Biology Group Final</td>
                 <td>Eric Saylor</td>
+                <td>Biology Group Final</td>
                 <td>Design a biology experiment.</td>
                 <td>Perform background research and find data to begin making an experiment.</td>
                 <td>2023-04-10</td>
@@ -40,8 +38,8 @@
             </tr>
             <tr>
                 <td>2</td>
-                <td>Biology Group Final</td>
                 <td>Dana Holt</td>
+                <td>Biology Group Final</td>
                 <td>Gather materials for the experiment.</td>
                 <td>Note: Consult the teacher for any  assistance.</td>
                 <td>2023-04-12</td>
@@ -50,8 +48,8 @@
             </tr>
             <tr>
                 <td>3</td>
-                <td>Spring Science Fair Project</td>
                 <td>Lillian Waldo</td>
+                <td>Spring Science Fair Project</td>
                 <td>Create experimental procedures for plant project.</td>
                 <td>Develop a set of guidelines that will be used to study plants. Refer to samples online for assistance.</td>
                 <td>2023-02-02</td>
@@ -63,16 +61,16 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Task</h3>
+    <h3 class="crud-title">Add Task to Assignment</h3>
     <div class="crud-box">
         <form class="insert-form">
             <fieldset class="fields">
-                <label>Title</label> <input type="text" name="task_title">
+                <label>Assignment ID</label> <input type="number" name="assignment_id">
+                <label>Task Title</label> <input type="text" name="task_title">
                 <label>Description</label> <input type="text" name="task_description">
                 <label>Due Date</label> <input type="date" name="due_date">
                 <label>Complete?</label> <input type="checkbox" name="is_complete">
                 <label>Has Citations?</label> <input type="checkbox" name="has_citations">
-                <label>Assignment ID</label> <input type="number" name="assignment_id">
             </fieldset>
             <input class="btn" type="submit" value="Submit">
             <input class="cancel-btn" type="button" value="Cancel">

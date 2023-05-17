@@ -5,46 +5,51 @@
     <div class="crud-box">
         <table class="search-results" border="1" cellpadding="5">
             <tr>
-                <th>ID</th>
-                <th>Project Title</th>
+                <th>Assignment ID</th>
                 <th>Student Name</th>
-                <th><a href="#">Add New +</a></th>
+                <th>Project Title</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
             <tr>
                 <td>1</td>
-                <td>Biology Group Final</td>
                 <td>Eric Saylor</td>
-                <td><a href="#">Delete</a></td>
+                <td>Biology Group Final</td>
+                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
+                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
             </tr>
             <tr>
                 <td>2</td>
-                <td>Biology Group Final</td>
                 <td>Dana Holt</td>
-                <td><a href="#">Delete</a></td>
+                <td>Biology Group Final</td>
+                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
+                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
             </tr>
             <tr>
                 <td>3</td>
-                <td>Spring Science Fair Project</td>
                 <td>Lillian Waldo</td>
-                <td><a href="#">Delete</a></td>
+                <td>Spring Science Fair Project</td>
+                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
+                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
             </tr>
             <tr>
                 <td>4</td>
-                <td>Arts and Crafts Project</td>
                 <td>Dana Holt</td>
-                <td><a href="#">Delete</a></td>
+                <td>Arts and Crafts Project</td>
+                <td><center><i class="fa-regular fa-pen-to-square" class="edit-btn"></i></center></td>
+                <td><center><i class="fa-solid fa-trash" class="delete-btn"></i></center></td>
             </tr>
         </table>
     </div>
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Add Student to Project</h3>
+    <h3 class="crud-title">Add Project to Student</h3>
     <div class="crud-box">
         <form class="insert-form">
             <fieldset class="fields">
-                <label>Project ID</label> <input type="number" name="project_id">
-                <label>Student ID</label> <input type="number" name="student_id">
+                <label>Student Email</label> <input type="email" name="email">
+                <label>Project ID</label> <input type="number" name="project_id" placeholder="NULL" value="NULL">
             </fieldset>
             <input class="btn" type="submit" value="Submit">
             <input class="cancel-btn" type="button" value="Cancel">
@@ -53,13 +58,12 @@
 
     <p>&nbsp;</p>
 
-    <h3 class="crud-title">Edit Assignment</h3>
+    <h3 class="crud-title">Edit Student Assignment</h3>
     <div class="crud-box">
         <form class="update-form">
             <fieldset class="fields">
-                <label>Assignment ID</label> <input type="number" value="" name="assignment_id"> 
-                <label>Project ID</label> <input type="number" value="" name="project_id">
-                <label>Student ID</label> <input type="number" value="" name="student_id">
+                <label>Student Email</label> <input type="email" name="email">
+                <label>Project ID</label> <input type="number" value="" name="project_id" placeholder="NULL" value="NULL">
             </fieldset>
             <input class="btn" type="submit" value="Update">
             <input class="cancel-btn" type="button" value="Cancel">

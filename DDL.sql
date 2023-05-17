@@ -18,7 +18,7 @@ CREATE OR REPLACE TABLE Students (
   student_id int(11) NOT NULL AUTO_INCREMENT,
   f_name varchar(50) NOT NULL,
   l_name varchar(50) NOT NULL,
-  email varchar(50) NOT NULL,
+  email varchar(50) NOT NULL UNIQUE,
   phone int(11),
   PRIMARY KEY (student_id)
 );
@@ -26,11 +26,11 @@ CREATE OR REPLACE TABLE Students (
 -- Assignments table
 CREATE OR REPLACE TABLE Assignments (
   assignment_id int(11) NOT NULL AUTO_INCREMENT,
-  project_id int(11),
   student_id int(11) NOT NULL,
+  project_id int(11),
   PRIMARY KEY (assignment_id),
-  FOREIGN KEY (project_id) REFERENCES Projects (project_id) ON DELETE CASCADE,
-  FOREIGN KEY (student_id) REFERENCES Students (student_id) ON DELETE CASCADE
+  FOREIGN KEY (student_id) REFERENCES Students (student_id) ON DELETE CASCADE,
+  FOREIGN KEY (project_id) REFERENCES Projects (project_id) ON DELETE CASCADE
 );
 
 -- Roles table
@@ -43,12 +43,12 @@ CREATE OR REPLACE TABLE Roles (
 -- Tasks table
 CREATE OR REPLACE TABLE Tasks (
   task_id int(11) NOT NULL AUTO_INCREMENT,
+  assignment_id int(11) NOT NULL,
   title varchar(50) NOT NULL,
   description varchar(500),
   due_date date,
   is_complete bool DEFAULT 0,
   has_citations bool DEFAULT 0,
-  assignment_id int(11) NOT NULL,
   PRIMARY KEY (task_id),
   FOREIGN KEY (assignment_id) REFERENCES Assignments (assignment_id) ON DELETE CASCADE
 );
@@ -97,12 +97,12 @@ VALUES
 ('Dana', 'Holt', 'holtd@gmail.com', '(530) 220-8740');
 
 -- Insert example data to Assignments
-INSERT INTO Assignments (project_id, student_id)
+INSERT INTO Assignments (student_id, project_id)
 VALUES
 (1, 1),
-(1, 4),
+(4, 1),
 (2, 2),
-(3, 4);
+(4, 3);
 
 -- Insert example data to Roles
 INSERT INTO Roles (title)
@@ -121,11 +121,11 @@ VALUES
 (2, 4);
 
 -- Insert example data to Tasks
-INSERT INTO Tasks (title, description, due_date, is_complete, has_citations, assignment_id)
+INSERT INTO Tasks (assignment_id, title, description, due_date, is_complete, has_citations)
 VALUES 
-('Design a biology experiment.', 'Perform background research and find data to begin making an experiment.', '2023-04-10', 0, 1, 1),
-('Gather materials for the experiment.', 'Note: Consult the teacher for any  assistance.', '2023-04-12', 0, 0, 2),
-('Create experimental procedures for plant project.', 'Develop a set of guidelines that will be used to study plants. Refer to samples online for assistance.', '2023-02-02', 0, 1, 3);
+(1, 'Design a biology experiment.', 'Perform background research and find data to begin making an experiment.', '2023-04-10', 0, 1),
+(2, 'Gather materials for the experiment.', 'Note: Consult the teacher for any assistance.', '2023-04-12', 0, 0),
+(3, 'Create experimental procedures for plant project.', 'Develop a set of guidelines that will be used to study plants. Refer to samples online for assistance.', '2023-02-02', 0, 1);
 
 -- Insert example data to Citations
 INSERT INTO Citations (title, source, author, url)

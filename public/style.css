@@ -69,3 +69,8 @@ header {
 .insert-form, .update-form, .search-box {
     max-width: fit-content;
 }
+
+i:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
