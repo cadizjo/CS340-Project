@@ -4,7 +4,7 @@ SET AUTOCOMMIT = 0;
 -- Projects table
 CREATE OR REPLACE TABLE Projects (
   project_id int(11) NOT NULL AUTO_INCREMENT,
-  title varchar(50) NOT NULL,
+  title varchar(50) NOT NULL UNIQUE,
   description varchar(500),
   start_date date,
   end_date date,

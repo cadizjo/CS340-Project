@@ -37,6 +37,9 @@ ORDER BY assignment_id;
 INSERT INTO Assignments(student_id, project_id) VALUES
 ((SELECT student_id FROM Students WHERE email = :student_email_input), :project_id_input);
 
+-- get all project ids and project titles to populate project dropdown
+SELECT project_id, title FROM Projects ORDER BY project_id;
+
 -- get a single assignment's data for the 'Edit Assignment' form (M-to-M relationship update)
 SELECT assignment_id, student_id, project_id FROM Assignments WHERE assignment_id = :assignment_id_selected_from_browse_assignments_page;
 

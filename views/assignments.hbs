@@ -50,7 +50,14 @@
         <form class="insert-form">
             <fieldset class="fields">
                 <label>Student Email</label> <input type="email" name="email">
-                <label>Project ID</label> <input type="number" name="project_id" placeholder="NULL" value="NULL">
+                <label>Project Title</label>
+                <select name="project_title">
+                    <option selected>&nbsp;</option>
+                    <option value="1">Biology Group Final</option>
+                    <option value="2">Spring Science Fair Project</option>
+                    <option value="3">Arts and Crafts Project</option>
+                    <option value="NULL">NULL</option>
+                </select>
             </fieldset>
             <div class="buttons">
                 <input class="accept-btn" type="submit" value="Submit">
@@ -65,7 +72,14 @@
         <h3 class="crud-title">Edit Student Assignment</h3>
         <form class="update-form">
             <label>Student Email</label> <input id="email-input" type="email" name="email">
-            <label>Project ID</label> <input id="project-id-input" type="number" name="project_id" placeholder="NULL" value="NULL">
+            <label>Project Title</label>
+            <select name="project_title">
+                <option selected>&nbsp;</option>
+                <option value="1">Biology Group Final</option>
+                <option value="2">Spring Science Fair Project</option>
+                <option value="3">Arts and Crafts Project</option>
+                <option value="NULL">NULL</option>
+            </select>
             <div class="buttons">
                 <input id="edit-accept-btn" class="accept-btn" type="submit" value="Update">
                 <input id="edit-cancel-btn" class="cancel-btn" type="button" value="Cancel">
