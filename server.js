@@ -4,6 +4,8 @@
 var express = require('express');               // use express library for web server
 var app = express();                            // instantiate an express object to interact with the server in our code
 PORT = 4261;                                    // receives incoming requests on specified PORT
+var db = require('./database/db-connector')     // database to process queries
+
 
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars

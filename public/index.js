@@ -7,10 +7,10 @@ EDIT ASSIGNMENT POPUP
 function clearEditPopupInputs() {
 
     var email = document.getElementById('email-input')
-    var project_id = document.getElementById('project-id-input')
+    var project_title = document.getElementById('project-title-input-edit')
 
     email.value = ''
-    project_id.value = 'NULL'
+    project_title.value = ''
 
 }
 
