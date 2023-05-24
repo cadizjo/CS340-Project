@@ -37,13 +37,15 @@
         <h3 class="crud-title">Add Project to Student</h3>
         <form class="insert-form">
             <fieldset class="fields">
-                <label for="email">Student Email</label> <input id="add-assignment-email-input" type="email" name="email">
+                <label for="email">Student Email</label> 
+                <input id="add-assignment-email-input" type="email" name="email">
+
                 <label for="project-title">Project Title</label>
                 <select id="add-assignment-project-input" name="project-title">
-                    <option value="0" selected>NULL</option>
-                    <option value="1">Biology Group Final</option>
-                    <option value="2">Spring Science Fair Project</option>
-                    <option value="3">Arts and Crafts Project</option>
+                    <option value="0">NULL</option>
+                    {{#each dropdown}}
+                    <option value="{{this.project_id}}">{{this.title}}</option>
+                    {{/each}}
                 </select>
             </fieldset>
             <div class="buttons">
@@ -58,13 +60,15 @@
     <div id="edit-assignment" class="hidden" class="crud-box">
         <h3 class="crud-title">Edit Student Assignment</h3>
         <form class="update-form">
-            <label for="email">Student Email</label> <input id="edit-assignment-email-input" type="email" name="email">
+            <label for="email">Student Email</label> 
+            <input id="edit-assignment-email-input" type="email" name="email">
+            
             <label for="project-title">Project Title</label>
-            <select id="edit-assignment-email-input" name="project-title">
-                <option value="0" selected>NULL</option>
-                <option value="1">Biology Group Final</option>
-                <option value="2">Spring Science Fair Project</option>
-                <option value="3">Arts and Crafts Project</option>
+            <select id="edit-assignment-project-input" name="project-title">
+                <option value="0">NULL</option>
+                {{#each dropdown}}
+                <option value="{{this.project_id}}">{{this.title}}</option>
+                {{/each}}
             </select>
             <div class="buttons">
                 <input id="edit-assignment-accept" class="accept-btn" type="submit" value="Update">

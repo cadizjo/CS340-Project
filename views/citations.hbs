@@ -41,14 +41,21 @@
         <h3 class="crud-title">Add Citation</h3>
         <form class="insert-form">
             <fieldset class="fields">
-                <label for="citation-title">Title</label> <input type="text" name="citation-title">
-                <label for="source">Source</label> <input type="text" name="source">
-                <label for="author">Author</label> <input type="text" name="author">
-                <label for="url">URL</label> <input type="url" name="url">
+                <label for="citation-title">Title</label> 
+                <input id="add-citation-title-input" type="text" name="citation-title">
+
+                <label for="source">Source</label> 
+                <input id="add-citation-source-input" type="text" name="source">
+
+                <label for="author">Author</label> 
+                <input id="add-citation-author-input" type="text" name="author">
+
+                <label for="url">URL</label> 
+                <input id="add-citation-url-input" type="url" name="url">
             </fieldset>
             <div class="buttons">
-                <input class="accept-btn" type="submit" value="Submit">
-                <input class="cancel-btn" type="button" value="Cancel">
+                <input id="add-citation-accept" class="accept-btn" type="submit" value="Submit">
+                <input id="add-citation-accept" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form>
     </div>
@@ -97,12 +104,15 @@
         <h3 class="crud-title">Add Citation to Task</h3>
         <form class="search-box">
             <fieldset class="fields">
-                <label for="task-id">Task ID</label> <input type="number" name="task-id">
-                <label for="citation-id">Citation ID</label> <input type="number" name="citation-id">
+                <label for="task-id">Task ID</label> 
+                <input id="add-citation-task-task-id-input" type="number" name="task-id">
+
+                <label for="citation-id">Citation ID</label> 
+                <input id="add-citation-task-citation-id-input" type="number" name="citation-id">
             </fieldset>
             <div class="buttons">
-                <input class="accept-btn" type="submit" value="Submit">
-                <input class="cancel-btn" type="button" value="Cancel">
+                <input id="add-citation-task-accept" class="accept-btn" type="submit" value="Submit">
+                <input id="add-citation-task-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form>
     </div>

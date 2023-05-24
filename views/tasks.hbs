@@ -5,11 +5,12 @@
         <h3 class="crud-title">Browse Assigned Tasks</h3>
         <form class="search-box">
             <fieldset class="fields">
-                <label for="email">Student Email</label> <input type="email" name="email">
+                <label for="email">Student Email</label> 
+                <input id="search-task-email-input" type="email" name="email">
             </fieldset>
             <div class="buttons">
-                <input class="accept-btn" type="submit" value="Search">
-                <input class="cancel-btn" type="button" value="Cancel">
+                <input id="search-task-accept" class="accept-btn" type="submit" value="Search">
+                <input id="search-task-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form> 
     </div>
@@ -67,16 +68,27 @@
         <h3 class="crud-title">Add Task to Assignment</h3>
         <form class="insert-form">
             <fieldset class="fields">
-                <label for="assignment-id">Assignment ID</label> <input type="number" name="assignment-id">
-                <label for="task-title">Task Title</label> <input type="text" name="task-title">
-                <label for="task-description">Description</label> <input type="text" name="task-description">
-                <label for="due-date">Due Date</label> <input type="date" name="due-date">
-                <label for="is-complete">Complete?</label> <input type="checkbox" name="is-complete">
-                <label for="has-citations">Has Citations?</label> <input type="checkbox" name="has-citations">
+                <label for="assignment-id">Assignment ID</label> 
+                <input id="add-task-assignment-id-input" type="number" name="assignment-id">
+
+                <label for="task-title">Task Title</label> 
+                <input id="add-task-title-input" type="text" name="task-title">
+
+                <label for="task-description">Description</label> 
+                <input id="add-task-description-input" type="text" name="task-description">
+
+                <label for="due-date">Due Date</label> 
+                <input id="add-task-due-date-input" type="date" name="due-date">
+
+                <label for="is-complete">Complete?</label> 
+                <input id="add-task-is-complete-input" type="checkbox" name="is-complete">
+
+                <label for="has-citations">Has Citations?</label> 
+                <input id="add-task-has-citations-input" type="checkbox" name="has-citations">
             </fieldset>
             <div class="buttons">
-                <input class="accept-btn" type="submit" value="Submit">
-                <input class="cancel-btn" type="button" value="Cancel">
+                <input id="add-task-accept" class="accept-btn" type="submit" value="Submit">
+                <input id="add-task-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form> 
     </div>

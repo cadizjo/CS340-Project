@@ -1,5 +1,28 @@
 /*
-ADD ASSIGNMENT FORM
+    HELPER FUNCTION FOR ADD PROJECT FORM
+*/
+function clearAddProjectInputs() {
+    var addProjectInputs = [
+        document.getElementById('add-project-title-input'),
+        document.getElementById('add-project-description-input'),
+        document.getElementById('add-project-start-date-input'),
+        document.getElementById('add-project-end-date-input'),
+    ]
+
+    addProjectInputs.forEach(function(elem) {
+        elem.value = ''
+    })
+
+    var isActive = document.getElementById('add-project-is-active-input')
+    var isCollab = document.getElementById('add-project-is-collaborative-input')
+
+    isActive.checked = false
+    isCollab.checked = false
+}
+
+
+/*
+    HELPER FUNCTION FOR ADD ASSIGNMENT FORM
 */
 function clearAddAssignmentInputs() {
     var email = document.getElementById('add-assignment-email-input')
@@ -9,16 +32,16 @@ function clearAddAssignmentInputs() {
     project.value = ''
 }
 
-/* 
-EDIT ASSIGNMENT POPUP 
-*/
 
+/* 
+    HELPER FUNCTIONS FOR EDIT ASSIGNMENT FORM 
+*/
 var record = {id: 0}    // stores ID of selected entity record
 
 function clearEditPopupInputs() {
 
     var email = document.getElementById('edit-assignment-email-input')
-    var project = document.getElementById('edit-assignment-email-input')
+    var project = document.getElementById('edit-assignment-project-input')
 
     email.value = ''
     project.value = ''
@@ -37,31 +60,10 @@ function hideEditPopup() {
 
 }
 
-function handleEditPopupSubmit() {
-
-    // get update input field values and assignment_id
-
-    // return err if student email isnt filled (since cant be null)
-
-    // o/w send post request to server with input values and assignment_id as body
-
-    fetch("/updateAssignment", {
-        method: "POST",
-        body: JSON.stringify(record), 
-        headers: {
-            "Content-Type": "application/json"
-        }
-    
-    })
-
-    hideEditPopup()
-}
-
 
 /* 
-DELETE ASSIGNMENT/PROJECT POPUP
+    HELPER FUNCTION FOR DELETE ASSIGNMENT/PROJECT POPUP
 */
-
 function hideDeletePopup() {
 
     var deletePopup = document.getElementById('delete-popup');
@@ -180,9 +182,59 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     /*
-    ADD ASSIGNMENT FORM
+        ADD PROJECT FORM
     */
+    var addProjectAccept = document.getElementById('add-project-accept')
+    if (addProjectAccept) {
+        addProjectAccept.addEventListener('click', function(event) {
+            event.preventDefault()
 
+            var title = document.getElementById('add-project-title-input').value.trim()
+            var desc = document.getElementById('add-project-description-input').value.trim()
+            var startDate = document.getElementById('add-project-start-date-input').value
+            var endDate = document.getElementById('add-project-end-date-input').value
+            var isActive = document.getElementById('add-project-is-active-input').checked
+            var isCollab = document.getElementById('add-project-is-collaborative-input').checked
+
+            if (!title) {
+                alert("Please enter a title")
+            }
+            else {
+                fetch("/addProject", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        title: title,
+                        desc: desc,
+                        startDate: startDate,
+                        endDate: endDate,
+                        isActive: isActive,
+                        isCollab: isCollab
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 409)
+                        alert("Please enter a different project title")
+                    else if (res.status == 200) {
+                        clearAddProjectInputs()
+                        window.location.href = "/projects"
+                    }
+                })
+            }
+        })
+    }
+
+    var addProjectCancel = document.getElementById('add-project-cancel')
+    if (addProjectCancel) {
+        addProjectCancel.addEventListener('click', clearAddProjectInputs)
+    }
+
+
+    /*
+        ADD ASSIGNMENT FORM
+    */
     var addAssignmentAccept = document.getElementById('add-assignment-accept')
     if (addAssignmentAccept) {
         addAssignmentAccept.addEventListener('click', function(event) {
@@ -222,8 +274,9 @@ window.addEventListener('DOMContentLoaded', function () {
         addAssignmentCancel.addEventListener('click', clearAddAssignmentInputs)
     }
 
+
     /* 
-    EDIT ASSIGNMENT POPUP 
+        EDIT ASSIGNMENT POPUP 
     */
     var editAssignmentBtns = document.getElementsByClassName('edit-btn');
     if (editAssignmentBtns) {
@@ -244,7 +297,45 @@ window.addEventListener('DOMContentLoaded', function () {
   
     var editSubmitBtn = document.getElementById('edit-assignment-accept');
     if (editSubmitBtn) {
-        editSubmitBtn.addEventListener('click', handleEditPopupSubmit);
+        editSubmitBtn.addEventListener('click', function(event) {
+            event.preventDefault()
+
+            var email = document.getElementById('edit-assignment-email-input').value.trim()
+            var project = document.getElementById('edit-assignment-project-input').value
+
+            if (!email || !project) {
+                alert("Please fill in all fields")
+            }
+            else {
+                fetch("/updateAssignment", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        id: record.id,
+                        email: email,
+                        project: project
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 409) {
+                        alert("Email not found. Please enter a valid email")
+                        clearEditPopupInputs()
+                    }
+                    else if (res.status == 200) {
+                        hideEditPopup()
+                        window.location.href = "/assignments"
+                    }
+                })
+
+            // get update input field values and assignment_id
+
+            // return err if student email isnt filled (since cant be null)
+
+            // o/w send post request to server with input values and assignment_id as body
+            }
+        })
     }
   
     var editCancelBtn = document.getElementById('edit-assignment-cancel');
@@ -254,7 +345,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     /* 
-    DELETE ASSIGNMENT/PROJECT POPUP
+        DELETE ASSIGNMENT/PROJECT POPUP
     */
     var deleteBtns = document.getElementsByClassName('delete-btn');
     if (deleteBtns) {
@@ -287,6 +378,11 @@ window.addEventListener('DOMContentLoaded', function () {
                     headers: {
                         "Content-Type": "application/json"
                     }
+                }).then(function(res) {
+                    if (res.status == 400)
+                        alert("Could not delete record")
+                    else if (res.status == 200)
+                        window.location.href = "/assignments" 
                 })
             }
 
@@ -298,10 +394,15 @@ window.addEventListener('DOMContentLoaded', function () {
                     headers: {
                         "Content-Type": "application/json"
                     }
+                }).then(function(res) {
+                    if (res.status == 400)
+                        alert("Could not delete record")
+                    else if (res.status == 200)
+                        window.location.href = "/projects" 
                 })
             }
             
-            hideDeletePopup() 
+            hideDeletePopup()
         });
     }
   

@@ -33,11 +33,12 @@
         <h3 class="crud-title">Add Role</h3>
         <form class="insert-form">
             <fieldset class="fields">
-                <label for="role-title">Role Title</label> <input type="text" name="role-title">
+                <label for="role-title">Role Title</label> 
+                <input id="add-role-title-input" type="text" name="role-title">
             </fieldset>
             <div class="buttons">
-                <input class="accept-btn" type="submit" value="Submit">
-                <input class="cancel-btn" type="button" value="Cancel">
+                <input id="add-role-accept" class="accept-btn" type="submit" value="Submit">
+                <input id="add-role-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form>
     </div>
@@ -86,8 +87,11 @@
         <h3 class="crud-title">Add Role to Assignment</h3>
         <form class="search-box">
             <fieldset class="fields">
-                <label for="assignment-id">Assignment ID</label> <input type="number" name="assignment-id">
-                <label for="role-title">Role Title</label> <select name="role-title">
+                <label for="assignment-id">Assignment ID</label> 
+                <input id="add-role-assignment-assignment-id-input" type="number" name="assignment-id">
+
+                <label for="role-title">Role Title</label> 
+                <select id="add-role-assignment-role-title-input" name="role-title">
                     <option selected>&nbsp;</option>
                     <option value="1">Team Leader</option>
                     <option value="2">Note Taker</option>
@@ -96,8 +100,8 @@
                 </select>
             </fieldset>
             <div class="buttons">
-                <input class="accept-btn" type="submit" value="Submit">
-                <input class="cancel-btn" type="button" value="Cancel">
+                <input id="add-role-assignment-accept" class="accept-btn" type="submit" value="Submit">
+                <input id="add-role-assignment-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form>
     </div>

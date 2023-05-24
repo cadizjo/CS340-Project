@@ -30,7 +30,7 @@ CREATE OR REPLACE TABLE Assignments (
   project_id int(11),
   PRIMARY KEY (assignment_id),
   FOREIGN KEY (student_id) REFERENCES Students (student_id) ON DELETE CASCADE,
-  FOREIGN KEY (project_id) REFERENCES Projects (project_id) ON DELETE CASCADE
+  FOREIGN KEY (project_id) REFERENCES Projects (project_id) ON DELETE SET NULL
 );
 
 -- Roles table
