@@ -5,41 +5,29 @@
     <div id="browse-assignment" class="crud-box">
         <h3 class="crud-title">Browse Student Assignments</h3>
         <table class="search-results" border="1" cellpadding="5">
-            <tr>
-                <th>Assignment ID</th>
-                <th>Student Name</th>
-                <th>Project Title</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Eric Saylor</td>
-                <td>Biology Group Final</td>
-                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
-                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Dana Holt</td>
-                <td>Biology Group Final</td>
-                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
-                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Lillian Waldo</td>
-                <td>Spring Science Fair Project</td>
-                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
-                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Dana Holt</td>
-                <td>Arts and Crafts Project</td>
-                <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
-                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
-            </tr>
+            <thead>
+                <tr>
+                    {{!-- print each attribute's key of a row object as a header cell  --}}
+                    {{#each data.[0]}}
+                    <th>{{@key}}</th>
+                    {{/each}}
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{!-- print attributes for each row of data --}}
+                {{#each data}}
+                <tr>
+                    <td>{{this.assignment_id}}</td>
+                    <td>{{this.name}}</td>
+                    {{#if this.project_title}} <td>{{this.project_title}}</td> {{else}} <td>NULL</td> {{/if}}
+                    <td><div class="edit-btn"><center><i class="fa-regular fa-pen-to-square"></i></center></div></td>
+                    <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -49,19 +37,18 @@
         <h3 class="crud-title">Add Project to Student</h3>
         <form class="insert-form">
             <fieldset class="fields">
-                <label>Student Email</label> <input type="email" name="email">
-                <label>Project Title</label>
-                <select id="project-title-input-add" name="project_title">
-                    <option selected>&nbsp;</option>
+                <label for="email">Student Email</label> <input id="add-assignment-email-input" type="email" name="email">
+                <label for="project-title">Project Title</label>
+                <select id="add-assignment-project-input" name="project-title">
+                    <option value="0" selected>NULL</option>
                     <option value="1">Biology Group Final</option>
                     <option value="2">Spring Science Fair Project</option>
                     <option value="3">Arts and Crafts Project</option>
-                    <option value="NULL">NULL</option>
                 </select>
             </fieldset>
             <div class="buttons">
-                <input class="accept-btn" type="submit" value="Submit">
-                <input class="cancel-btn" type="button" value="Cancel">
+                <input id="add-assignment-accept" class="accept-btn" type="submit" value="Submit">
+                <input id="add-assignment-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form> 
     </div>
@@ -71,18 +58,17 @@
     <div id="edit-assignment" class="hidden" class="crud-box">
         <h3 class="crud-title">Edit Student Assignment</h3>
         <form class="update-form">
-            <label>Student Email</label> <input id="email-input" type="email" name="email">
-            <label>Project Title</label>
-            <select id="project-title-input-edit" name="project_title">
-                <option selected>&nbsp;</option>
+            <label for="email">Student Email</label> <input id="edit-assignment-email-input" type="email" name="email">
+            <label for="project-title">Project Title</label>
+            <select id="edit-assignment-email-input" name="project-title">
+                <option value="0" selected>NULL</option>
                 <option value="1">Biology Group Final</option>
                 <option value="2">Spring Science Fair Project</option>
                 <option value="3">Arts and Crafts Project</option>
-                <option value="NULL">NULL</option>
             </select>
             <div class="buttons">
-                <input id="edit-accept-btn" class="accept-btn" type="submit" value="Update">
-                <input id="edit-cancel-btn" class="cancel-btn" type="button" value="Cancel">
+                <input id="edit-assignment-accept" class="accept-btn" type="submit" value="Update">
+                <input id="edit-assignment-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form> 
     </div>

@@ -1,16 +1,27 @@
-var record = {id: 0}    // stores ID of selected entity record
+/*
+ADD ASSIGNMENT FORM
+*/
+function clearAddAssignmentInputs() {
+    var email = document.getElementById('add-assignment-email-input')
+    var project = document.getElementById('add-assignment-project-input')
+    
+    email.value = ''
+    project.value = ''
+}
 
 /* 
 EDIT ASSIGNMENT POPUP 
 */
 
+var record = {id: 0}    // stores ID of selected entity record
+
 function clearEditPopupInputs() {
 
-    var email = document.getElementById('email-input')
-    var project_title = document.getElementById('project-title-input-edit')
+    var email = document.getElementById('edit-assignment-email-input')
+    var project = document.getElementById('edit-assignment-email-input')
 
     email.value = ''
-    project_title.value = ''
+    project.value = ''
 
 }
 
@@ -168,6 +179,49 @@ window.addEventListener('DOMContentLoaded', function () {
         })
     }
 
+    /*
+    ADD ASSIGNMENT FORM
+    */
+
+    var addAssignmentAccept = document.getElementById('add-assignment-accept')
+    if (addAssignmentAccept) {
+        addAssignmentAccept.addEventListener('click', function(event) {
+            event.preventDefault()
+
+            var email = document.getElementById('add-assignment-email-input').value.trim()
+            var project = document.getElementById('add-assignment-project-input').value
+
+            if (!email || !project) {
+                alert("Please fill in all fields")
+            }
+            else {
+                fetch("/addAssignment", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        email: email,
+                        project: project
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 409)
+                        alert("Email not found. Please enter a valid email")
+                    else if (res.status == 200)
+                        window.location.href = "/assignments"
+                })
+            
+                clearAddAssignmentInputs()
+            }
+        })
+    }
+
+    var addAssignmentCancel = document.getElementById('add-assignment-cancel')
+    if (addAssignmentCancel) {
+        addAssignmentCancel.addEventListener('click', clearAddAssignmentInputs)
+    }
+
     /* 
     EDIT ASSIGNMENT POPUP 
     */
@@ -188,12 +242,12 @@ window.addEventListener('DOMContentLoaded', function () {
         }
     }
   
-    var editSubmitBtn = document.getElementById('edit-accept-btn');
+    var editSubmitBtn = document.getElementById('edit-assignment-accept');
     if (editSubmitBtn) {
         editSubmitBtn.addEventListener('click', handleEditPopupSubmit);
     }
   
-    var editCancelBtn = document.getElementById('edit-cancel-btn');
+    var editCancelBtn = document.getElementById('edit-assignment-cancel');
     if (editCancelBtn) {
         editCancelBtn.addEventListener('click', hideEditPopup);
     }

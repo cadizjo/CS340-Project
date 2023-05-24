@@ -30,8 +30,9 @@ INSERT INTO Students(f_name, l_name, email, phone) VALUES
 SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title
 FROM Assignments 
 INNER JOIN Students ON Assignments.student_id = Students.student_id
-INNER JOIN Projects ON Assignments.project_id = Projects.project_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 ORDER BY assignment_id;
+-- note: INNER JOIN will only display records that match while LEFT JOIN will display all records being joined regardless 
 
 -- associate a project with a student for 'Add Student to Project' form (M-to-M relationship addition) 
 INSERT INTO Assignments(student_id, project_id) VALUES
@@ -63,8 +64,8 @@ SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', 
 FROM Roles
 INNER JOIN Assignments_has_Roles ON Roles.role_id = Assignments_has_Roles.role_id
 INNER JOIN Assignments ON Assignments_has_Roles.assignment_id = Assignments.assignment_id
-INNER JOIN Projects ON Assignments.project_id = Projects.project_id
 INNER JOIN Students ON Assignments.student_id = Students.student_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 ORDER BY assignment_id;
 
 -- get all role ids and role titles to populate role dropdown
@@ -81,8 +82,8 @@ INSERT INTO Assignments_has_Roles(assignment_id, role_id) VALUES
 SELECT Tasks.task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title, Tasks.title AS task_title, Tasks.description, due_date, is_complete, has_citations
 FROM Tasks
 INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id
-INNER JOIN Projects ON Assignments.project_id = Projects.project_id
 INNER JOIN Students ON Assignments.student_id = Students.student_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 WHERE email = :student_email_input
 ORDER BY task_id;
 
@@ -106,7 +107,7 @@ FROM Citations
 INNER JOIN Tasks_has_Citations ON Citations.citation_id = Tasks_has_Citations.citation_id
 INNER JOIN Tasks ON Tasks_has_Citations.task_id = Tasks.task_id
 INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id
-INNER JOIN Projects ON Assignments.project_id = Projects.project_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 ORDER BY task_id;
 
 -- associate a task with a citation for 'Add Citation to Task' form

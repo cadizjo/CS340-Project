@@ -5,43 +5,32 @@
     <div class="crud-box">
         <h3 class="crud-title">Browse Projects</h3>
         <table class="search-results" border="1" cellpadding="5">
-            <tr>
-                <th>Project ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Start date</th>
-                <th>End Date</th>
-                <th>Active?</th>
-                <th>Collaborative?</th>
-                <th>Delete</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Biology Group Final</td>
-                <td>Final group research project for biology that will be presented at the end of the school year.</td>
-                <td>2023-04-05</td>
-                <td>NULL</td>
-                <td>YES</td>
-                <td>YES</td>
-                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>            </tr>
-            <tr>
-                <td>2</td>
-                <td>Spring Science Fair Project</td>
-                <td>Conduct research on plants and create board before May to showcase at the Spring Science Fair.</td>
-                <td>2023-01-01</td>
-                <td>NULL</td>
-                <td>YES</td>
-                <td>NO</td> 
-                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>            </tr>
-            <tr>
-                <td>3</td>
-                <td>Arts and Crafts Project</td>
-                <td>Personal art project that will be worked on during the summer for an art showcase.</td>
-                <td>NULL</td>
-                <td>NULL</td>
-                <td>NO</td>
-                <td>NO</td>
-                <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>            </tr>
+            <thead>
+                <tr>
+                    {{!-- print each attribute's key of a row object as a header cell  --}}
+                    {{#each data.[0]}}
+                    <th>{{@key}}</th>
+                    {{/each}}
+
+                    <th>Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{!-- print attributes for each row of data --}}
+                {{#each data}}
+                <tr>
+                    <td>{{this.project_id}}</td>
+                    <td>{{this.title}}</td> 
+                    {{#if this.description}} <td>{{this.description}}</td> {{else}} <td>NULL</td> {{/if}}
+                    {{#if this.start_date}} <td>{{this.start_date}}</td> {{else}} <td>NULL</td> {{/if}}
+                    {{#if this.end_date}} <td>{{this.end_date}}</td> {{else}} <td>NULL</td> {{/if}}
+                    <td>{{this.is_active}}</td>
+                    <td>{{this.is_collaborative}}</td>
+                    <td><div class="delete-btn"><center><i class="fa-solid fa-trash"></i></center></div></td>
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -51,12 +40,12 @@
         <h3 class="crud-title">Add Project</h3>
         <form class="insert-form">
             <fieldset class="fields">
-                <label>Title</label> <input type="text" name="project_title">
-                <label>Description</label> <input type="text" name="project_description">
-                <label>Start Date</label> <input type="date" name="start-date">
-                <label>End Date</label> <input type="date" name="end-date">
-                <label>Active?</label> <input type="checkbox" name="is-active" checked>
-                <label>Collaborative?</label> <input type="checkbox" name="is-collaborative">
+                <label for="project-title">Title</label> <input type="text" name="project-title">
+                <label for="project-description">Description</label> <input type="text" name="project-description">
+                <label for="start-date">Start Date</label> <input type="date" name="start-date">
+                <label for="end-date">End Date</label> <input type="date" name="end-date">
+                <label for="is-active">Active?</label> <input type="checkbox" name="is-active" checked>
+                <label for="is-collaborative">Collaborative?</label> <input type="checkbox" name="is-collaborative">
             </fieldset>
             <div class="buttons">
                 <input class="accept-btn" type="submit" value="Submit">
