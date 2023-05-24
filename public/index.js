@@ -284,7 +284,7 @@ window.addEventListener('DOMContentLoaded', function () {
             editAssignmentBtns[i].addEventListener('click', function(event) {
                 // whenever edit button is clicked, use event obj to locate adjacent/corresponding record ID
                 var btnClicked = event.currentTarget
-                record.id = btnClicked.parentElement.parentElement.firstElementChild.textContent
+                record.id = btnClicked.parentElement.parentElement.getAttribute("data-value")
             
                 var editPopup = document.getElementById('edit-assignment');
                 var popupBackdrop = document.getElementById('popup-backdrop');
@@ -353,7 +353,7 @@ window.addEventListener('DOMContentLoaded', function () {
             deleteBtns[i].addEventListener('click', function(event) {
                 // whenever delete button is clicked, use event obj to locate adjacent/corresponding record ID
                 var btnClicked = event.currentTarget
-                record.id = btnClicked.parentElement.parentElement.firstElementChild.textContent
+                record.id = btnClicked.parentElement.parentElement.getAttribute("data-value")
             
                 var deletePopup = document.getElementById('delete-popup');
                 var popupBackdrop = document.getElementById('popup-backdrop');

@@ -36,7 +36,7 @@ CREATE OR REPLACE TABLE Assignments (
 -- Roles table
 CREATE OR REPLACE TABLE Roles (
   role_id int(11) NOT NULL AUTO_INCREMENT,
-  title varchar(50) NOT NULL,
+  title varchar(50) NOT NULL UNIQUE,
   PRIMARY KEY (role_id)
 );
 

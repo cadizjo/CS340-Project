@@ -19,7 +19,7 @@
             <tbody>
                 {{!-- print attributes for each row of data --}}
                 {{#each data}}
-                <tr>
+                <tr data-value={{this.assignment_id}}>
                     <td>{{this.assignment_id}}</td>
                     <td>{{this.name}}</td>
                     {{#if this.project_title}} <td>{{this.project_title}}</td> {{else}} <td>NULL</td> {{/if}}
