@@ -3,7 +3,7 @@
 */
 var express = require('express');               // use express library for web server
 var app = express();                            // instantiate an express object to interact with the server in our code
-PORT = 4262;                                    // receives incoming requests on specified PORT
+PORT = 4263;                                    // receives incoming requests on specified PORT
 var db = require('./database/db-connector')     // database to process queries
 
 
@@ -188,6 +188,21 @@ app.post("/updateAssignment", function (req, res) {
         }
     })
 });
+
+// gets data about a specific assignment record
+app.post('/assignmentData', function(req, res) {
+    var id = req.body.id
+    var query = `SELECT Students.email, Projects.project_id ` +
+    `FROM Assignments ` +
+    `INNER JOIN Students ON Assignments.student_id = Students.student_id ` +
+    `LEFT JOIN Projects ON Assignments.project_id = Projects.project_id ` +
+    `WHERE assignment_id = ${id};`
+
+    db.pool.query(query, function(error, rows, fields) {
+        console.log(rows)
+        res.send(rows)
+    })
+})
 
 
 /*

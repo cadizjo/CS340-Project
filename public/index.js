@@ -285,12 +285,41 @@ window.addEventListener('DOMContentLoaded', function () {
                 // whenever edit button is clicked, use event obj to locate adjacent/corresponding record ID
                 var btnClicked = event.currentTarget
                 record.id = btnClicked.parentElement.parentElement.getAttribute("data-value")
-            
-                var editPopup = document.getElementById('edit-assignment');
-                var popupBackdrop = document.getElementById('popup-backdrop');
 
-                editPopup.classList.remove('hidden');
-                popupBackdrop.classList.remove('hidden');
+                // get data about selected assignment using post request
+                fetch("/assignmentData", {
+                    method: "POST",
+                    body: JSON.stringify(record), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // show popup
+                    var editPopup = document.getElementById('edit-assignment');
+                    var popupBackdrop = document.getElementById('popup-backdrop');
+
+                    editPopup.classList.remove('hidden');
+                    popupBackdrop.classList.remove('hidden');
+
+                    // pre-fill edit-form input fields with selected assignment data
+                    var editEmailInput = document.getElementById('edit-assignment-email-input')
+                    var editProjectInput = document.getElementById('edit-assignment-project-input')
+
+                    editEmailInput.value = data[0].email
+
+                    if (data[0].project_id == null)
+                        editProjectInput.selectedIndex = 0
+                    else {
+                        for(var i, j = 0; i = editProjectInput.options[j]; j++) {
+                            if (i.value == data[0].project_id) {
+                                editProjectInput.selectedIndex = j;
+                                break;
+                            }
+                        }
+                    }
+                })
             })
         }
     }
