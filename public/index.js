@@ -22,6 +22,23 @@ function clearAddProjectInputs() {
 
 
 /*
+    HELPER FUNCTION FOR ADD STUDENT FORM
+*/
+function clearAddStudentInputs() {
+    var addStudentInputs = [
+        document.getElementById('add-student-fname-input'),
+        document.getElementById('add-student-lname-input'),
+        document.getElementById('add-student-email-input'),
+        document.getElementById('add-student-phone-input'),
+    ]
+
+    addStudentInputs.forEach(function(elem) {
+        elem.value = ''
+    })
+}
+
+
+/*
     HELPER FUNCTION FOR ADD ASSIGNMENT FORM
 */
 function clearAddAssignmentInputs() {
@@ -229,6 +246,53 @@ window.addEventListener('DOMContentLoaded', function () {
     var addProjectCancel = document.getElementById('add-project-cancel')
     if (addProjectCancel) {
         addProjectCancel.addEventListener('click', clearAddProjectInputs)
+    }
+
+
+    /*
+        ADD STUDENT FORM
+    */
+    var addStudentAccept = document.getElementById('add-student-accept')
+    if (addStudentAccept) {
+        addStudentAccept.addEventListener('click', function(event) {
+            event.preventDefault()
+
+            var fname = document.getElementById('add-student-fname-input').value.trim()
+            var lname = document.getElementById('add-student-lname-input').value.trim()
+            var email = document.getElementById('add-student-email-input').value.trim()
+            var phone = document.getElementById('add-student-phone-input').value.trim()
+
+            if (!fname || !lname || !email) {
+                alert("Please enter a full name and email")
+            }
+            else {
+                fetch("/addStudent", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        fname: fname,
+                        lname: lname,
+                        email: email,
+                        phone: phone
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 409)
+                        alert("Please enter a different email")
+                    else if (res.status == 200) {
+                        clearAddStudentInputs()
+                        window.location.href = "/students"
+                    }
+                })
+            }
+        })
+    }
+
+    var addStudentCancel = document.getElementById('add-student-cancel')
+    if (addStudentCancel) {
+        addStudentCancel.addEventListener('click', clearAddStudentInputs)
     }
 
 

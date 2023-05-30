@@ -4,36 +4,26 @@
     <div class="crud-box">
         <h3 class="crud-title">Browse Students</h3>
         <table class="search-results" border="1" cellpadding="5">
-            <tr>
-                <th>Student ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Eric Saylor</td>
-                <td>saylore@gmail.com</td>
-                <td>(756) 375-6352</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Lillian Waldo</td>
-                <td>waldol@gmail.com</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>George Inigo</td>
-                <td>inigog@gmail.com</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Dana Holt</td>
-                <td>holtd@gmail.com</td>
-                <td>(530) 220-8740</td>
-            </tr>
+            <thead>
+                <tr>
+                    {{!-- print each attribute's key of a row object as a header cell  --}}
+                    {{#each data.[0]}}
+                    <th>{{@key}}</th>
+                    {{/each}}
+                </tr>
+            </thead>
+
+            <tbody>
+                {{!-- print attributes for each row of data --}}
+                {{#each data}}
+                <tr data-value={{this.student_id}}>
+                    <td>{{this.student_id}}</td>
+                    <td>{{this.name}}</td> 
+                    <td>{{this.email}}</td>
+                    {{#if this.phone}} <td>{{this.phone}}</td> {{else}} <td>NULL</td> {{/if}}
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -44,10 +34,10 @@
         <form class="insert-form">
             <fieldset class="fields">
                 <label for="f-name">First Name</label> 
-                <input id="add-student-f-name-input" type="text" name="f-name">
+                <input id="add-student-fname-input" type="text" name="f-name">
 
                 <label for="l-name">Last Name</label> 
-                <input id="add-student-l-name-input" type="text" name="l-name">
+                <input id="add-student-lname-input" type="text" name="l-name">
 
                 <label for="email">Email</label> 
                 <input id="add-student-email-input" type="email" name="email">

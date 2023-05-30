@@ -35,7 +35,10 @@ app.get('/projects', function(req, res) {
 });
 
 app.get('/students', function(req, res) {
-    res.status(200).render('students');
+    var query = "SELECT student_id, CONCAT(f_name, ' ', l_name) AS name, email, phone FROM Students ORDER BY student_id;"
+    db.pool.query(query, function(error, rows, fields) {
+        res.status(200).render('students', {data: rows});
+    })
 });
 
 app.get('/assignments', function(req, res) {
@@ -99,6 +102,42 @@ app.post('/addProject', function(req, res) {
         }
         if (is_valid == false) {
             console.log("project title alredy exists")
+            res.sendStatus(409)
+        }
+        else {
+            db.pool.query(query2, function(error, rows, fields) {
+                if (error) {
+                    console.log(error)
+                    res.sendStatus(400)
+                }
+                else {
+                    res.sendStatus(200)
+                }
+            })        
+        } 
+    })
+})
+
+app.post('/addStudent', function(req, res) {
+    var data = req.body
+    if (data.phone == '') data.phone = 'NULL'
+    
+    var query1 = `SELECT email FROM Students;`
+    var query2 = `INSERT INTO Students(f_name, l_name, email, phone) VALUES` +
+    `('${data.fname}', '${data.lname}', '${data.email}', '${data.phone}');`
+
+    db.pool.query(query1, function(error, rows, fields) {
+        var student_emails = rows
+        var is_valid = true
+        // check if student w same email alredy exists in Students table before inserting new record (since each email must be unique)
+        for (var i = 0; i < student_emails.length; i++) {
+            if (student_emails[i].email == data.email) {
+                is_valid = false
+                break
+            }
+        }
+        if (is_valid == false) {
+            console.log("student email alredy exists")
             res.sendStatus(409)
         }
         else {

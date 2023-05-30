@@ -19,7 +19,7 @@ CREATE OR REPLACE TABLE Students (
   f_name varchar(50) NOT NULL,
   l_name varchar(50) NOT NULL,
   email varchar(50) NOT NULL UNIQUE,
-  phone int(11),
+  phone bigint(11),
   PRIMARY KEY (student_id)
 );
 
@@ -91,10 +91,10 @@ VALUES
 -- Insert example data to Students
 INSERT INTO Students (f_name, l_name, email, phone)
 VALUES
-('Eric', 'Saylor', 'saylore@gmail.com', '(756) 375-6352'),
+('Eric', 'Saylor', 'saylore@gmail.com', '8084829621'),
 ('Lillian', 'Waldo', 'waldol@gmail.com', NULL),
 ('George', 'Inigo', 'inigog@gmail.com', NULL),
-('Dana', 'Holt', 'holtd@gmail.com', '(530) 220-8740');
+('Dana', 'Holt', 'holtd@gmail.com', '5302208740');
 
 -- Insert example data to Assignments
 INSERT INTO Assignments (student_id, project_id)
