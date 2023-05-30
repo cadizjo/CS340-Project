@@ -27,7 +27,7 @@ INSERT INTO Students(f_name, l_name, email, phone) VALUES
 -- ** ASSIGNMENTS PAGE ** --
 
 -- get all assignments (which students correspond to which projects) for 'Browse Student Assignments' form
-SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title
+SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title
 FROM Assignments 
 INNER JOIN Students ON Assignments.student_id = Students.student_id
 LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
@@ -63,7 +63,7 @@ SELECT * FROM Roles ORDER BY role_id;
 INSERT INTO Roles(title) VALUES (:title_input);
 
 -- get all Roles associated w/an Assignment for 'Browse Assigned Roles' form
-SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title, Roles.title AS role_title
+SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Roles.title AS role_title
 FROM Roles
 INNER JOIN Assignments_has_Roles ON Roles.role_id = Assignments_has_Roles.role_id
 INNER JOIN Assignments ON Assignments_has_Roles.assignment_id = Assignments.assignment_id
@@ -89,7 +89,7 @@ INSERT INTO Assignments_has_Roles(assignment_id, role_id) VALUES
 -- ** TASKS PAGE ** --
 
 -- get all tasks associated w/a Project and Student for 'Browse Tasks' search functionality
-SELECT Tasks.task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title, Tasks.title AS task_title, Tasks.description, due_date, is_complete, has_citations
+SELECT Tasks.task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Tasks.title AS task_title, Tasks.description, due_date, is_complete, has_citations
 FROM Tasks
 INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id
 INNER JOIN Students ON Assignments.student_id = Students.student_id
@@ -112,13 +112,25 @@ INSERT INTO Citations(title, source, author, url) VALUES
 (:title_input, :source_input, :author_input, :url_input);
 
 -- get all Citations associated w/a Task for 'Browse Task Citations' form
-SELECT Tasks.task_id AS task_id, Projects.title AS project_title, Tasks.title AS task, Citations.citation_id AS citation_id
+SELECT Tasks.task_id AS task_id, Tasks.title AS task_title, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Citations.citation_id AS citation_id
 FROM Citations
 INNER JOIN Tasks_has_Citations ON Citations.citation_id = Tasks_has_Citations.citation_id
 INNER JOIN Tasks ON Tasks_has_Citations.task_id = Tasks.task_id
 INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id
+INNER JOIN Students ON Assignments.student_id = Students.student_id
 LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 ORDER BY task_id;
+
+-- get all task ids with task title and assignment details to populate tasks dropdown
+SELECT Tasks.task_id AS task_id, Tasks.title AS task_title, Students.email, Projects.title AS project_title
+FROM Tasks
+INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id
+INNER JOIN Students ON Assignments.student_id = Students.student_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
+ORDER BY task_id;
+
+-- get all citation ids and unique identifier to populate role dropdown
+SELECT citation_id, title, author FROM Citations ORDER BY citation_id;
 
 -- associate a task with a citation for 'Add Citation to Task' form
 INSERT INTO Tasks_has_Citations(task_id, citation_id) VALUES

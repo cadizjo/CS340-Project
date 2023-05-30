@@ -4,34 +4,23 @@
     <div class="crud-box">
         <h3 class="crud-title">Browse Citations</h3>
         <table class="search-results" border="1" cellpadding="5">
-            <tr>
-                <th>Citation ID</th>
-                <th>Citation Title</th>
-                <th>Source</th>
-                <th>Author</th>
-                <th>URL</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Experimental Procedure</td>
-                <td>Website</td>
-                <td>NULL</td>
-                <td>https://www.sciencebuddies.org/science-fair-projects/science-fair/writing-experimental-procedures/</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Plant Physiology</td>
-                <td>Textbook</td>
-                <td>Lincoln Taiz</td>
-                <td>NULL</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>How to do a Science Fair Project</td>
-                <td>Website</td>
-                <td>NASA</td>
-                <td>https://www.jpl.nasa.gov/edu/learn/activities/science-fair-project/</td>
-            </tr>
+            <thead>
+                {{#each citations.[0]}}
+                <th>{{@key}}</th>
+                {{/each}}
+            </thead>
+
+            <tbody>
+                {{#each citations}}
+                <tr data-value={{this.citation_id}}>
+                    <td>{{this.citation_id}}</td>
+                    <td>{{this.title}}</td>
+                    <td>{{this.source}}</td>
+                    <td>{{this.author}}</td>
+                    {{#if this.url}} <td>{{this.url}}</td> {{else}} <td>NULL</td> {{/if}}                
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -55,7 +44,7 @@
             </fieldset>
             <div class="buttons">
                 <input id="add-citation-accept" class="accept-btn" type="submit" value="Submit">
-                <input id="add-citation-accept" class="cancel-btn" type="button" value="Cancel">
+                <input id="add-citation-cancel" class="cancel-btn" type="button" value="Cancel">
             </div>
         </form>
     </div>
@@ -65,36 +54,23 @@
     <div class="crud-box">
         <h3 class="crud-title">Browse Task Citations</h3>
         <table class="search-results" border="1" cellpadding="5">
-            <tr>
-                <th>Task ID</th>
-                <th>Project Title</th>
-                <th>Task</th>
-                <th>Citation ID</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Biology Group Final</td>
-                <td>Design a biology experiment.</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Spring Science Fair Project</td>                
-                <td>Create experimental procedures for plant project.</td>                
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Spring Science Fair Project</td>                
-                <td>Create experimental procedures for plant project.</td>                
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Spring Science Fair Project</td>                
-                <td>Create experimental procedures for plant project.</td>                
-                <td>3</td>
-            </tr>
+            <thead>
+                {{#each taskCitations.[0]}}
+                <th>{{@key}}</th>
+                {{/each}}
+            </thead>
+
+            <tbody>
+                {{#each taskCitations}}
+                <tr>
+                    <td>{{this.task_id}}</td>
+                    <td>{{this.task_title}}</td>
+                    <td>{{this.student_name}}</td>
+                    {{#if this.project_title}} <td>{{this.project_title}}</td> {{else}} <td>NULL</td> {{/if}}
+                    <td>{{this.citation_id}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -104,11 +80,19 @@
         <h3 class="crud-title">Add Citation to Task</h3>
         <form class="search-box">
             <fieldset class="fields">
-                <label for="task-id">Task ID</label> 
-                <input id="add-citation-task-task-id-input" type="number" name="task-id">
+                <label for="task">Task</label> 
+                <select id="add-citation-task-task-input" name="task">
+                    {{#each taskDropdown}}
+                    <option value="{{this.task_id}}">{{this.task_title}} - {{this.email}} - {{#if this.project_title}} {{this.project_title}} {{else}} NULL {{/if}}</option>
+                    {{/each}}
+                </select>
 
-                <label for="citation-id">Citation ID</label> 
-                <input id="add-citation-task-citation-id-input" type="number" name="citation-id">
+                <label for="citation">Citation</label> 
+                <select id="add-citation-task-citation-input" name="citation">
+                    {{#each citationDropdown}}
+                    <option value="{{this.citation_id}}">{{this.title}} - {{this.author}}</option>
+                    {{/each}}
+                </select>
             </fieldset>
             <div class="buttons">
                 <input id="add-citation-task-accept" class="accept-btn" type="submit" value="Submit">

@@ -87,7 +87,7 @@ function hideDeletePopup() {
 
 
 /*
-    HELPER FUNCTION FOR ADD ROLE/ASSIGNED ROLE FORM
+    HELPER FUNCTIONS FOR ADD ROLE/ASSIGNED ROLE FORM
 */
 function clearAddRoleInputs() {
     var roleTitle = document.getElementById('add-role-title-input')
@@ -100,6 +100,31 @@ function clearAddAssignedRoleInputs() {
 
     assignment.value = ''
     role.value = ''
+}
+
+
+/*
+    HELPER FUNCTIONS FOR ADD CITATION/TASK CITATION FORM
+*/
+function clearAddCitationInputs() {
+    var addCitationInputs = [
+        document.getElementById('add-citation-title-input'),
+        document.getElementById('add-citation-source-input'),
+        document.getElementById('add-citation-author-input'),
+        document.getElementById('add-citation-url-input'),
+    ]
+
+    addCitationInputs.forEach(function(elem) {
+        elem.value = ''
+    })
+}
+
+function clearAddTaskCitationInputs() {
+    var task = document.getElementById('add-citation-task-task-input')
+    var citation = document.getElementById('add-citation-task-citation-input')
+
+    task.value = ''
+    citation.value = ''
 }
 
 
@@ -602,6 +627,92 @@ window.addEventListener('DOMContentLoaded', function () {
     var addAssignedRoleCancel = document.getElementById('add-role-assignment-cancel')
     if (addAssignedRoleCancel) {
         addAssignedRoleCancel.addEventListener('click', clearAddAssignedRoleInputs)
+    }
+
+
+    /*
+        ADD CITATION/TASK CITATION FORM
+    */
+    var addCitationAccept = document.getElementById('add-citation-accept')
+    if (addCitationAccept) {
+        addCitationAccept.addEventListener('click', function(event) {
+            event.preventDefault()
+
+            var title = document.getElementById('add-citation-title-input').value.trim()
+            var source = document.getElementById('add-citation-source-input').value.trim()
+            var author = document.getElementById('add-citation-author-input').value.trim()
+            var url = document.getElementById('add-citation-url-input').value.trim()
+
+            if (!title || !source || !author) {
+                alert("Please enter a title, source, and author")
+            }
+            else {
+                fetch("/addCitation", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        title: title,
+                        source: source,
+                        author: author,
+                        url: url
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 410)
+                        alert("Citation with that title and author already exists. Please enter a new citation.")
+                    else if (res.status == 200) {
+                        window.location.href = "/citations"
+                        clearAddCitationInputs()
+                    }
+                })
+            }
+        })
+    }
+
+    var addCitationCancel = document.getElementById('add-citation-cancel')
+    if (addCitationCancel) {
+        addCitationCancel.addEventListener('click', clearAddCitationInputs)
+    }
+
+    var addTaskCitationAccept = document.getElementById('add-citation-task-accept')
+    if (addTaskCitationAccept) {
+        addTaskCitationAccept.addEventListener('click', function(event) {
+            event.preventDefault()
+
+            var task = document.getElementById('add-citation-task-task-input').value
+            var citation = document.getElementById('add-citation-task-citation-input').value
+
+            if (!task || !citation) {
+                alert("Please fill in all fields")
+            }
+            else {
+                fetch("/addTaskCitation", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        task: task,
+                        citation: citation
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 410)
+                        alert("Task with that citation already exists. Please enter a different citation")
+                    else if (res.status == 200) {
+                        window.location.href = "/citations"
+                        clearAddTaskCitationInputs()
+                    }
+                })
+            }
+        })
+    }
+
+    var addTaskCitationCancel = document.getElementById('add-citation-task-cancel')
+    if (addTaskCitationCancel) {
+        addTaskCitationCancel.addEventListener('click', clearAddTaskCitationInputs)
     }
 
 })

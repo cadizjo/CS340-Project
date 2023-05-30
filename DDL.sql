@@ -58,7 +58,7 @@ CREATE OR REPLACE TABLE Citations (
   citation_id int(11) NOT NULL AUTO_INCREMENT,
   title varchar(50) NOT NULL,
   source varchar(50) NOT NULL,
-  author varchar(50),
+  author varchar(50) NOT NULL, 
   url varchar(150),
   PRIMARY KEY (citation_id)
 );
@@ -130,7 +130,7 @@ VALUES
 -- Insert example data to Citations
 INSERT INTO Citations (title, source, author, url)
 VALUES
-('Experimental Procedure', 'Website', NULL, 'https://www.sciencebuddies.org/science-fair-projects/science-fair/writing-experimental-procedures'),
+('Experimental Procedure', 'Website', 'Science Buddies', 'https://www.sciencebuddies.org/science-fair-projects/science-fair/writing-experimental-procedures'),
 ('Plant Physiology', 'Textbook', 'Lincoln Taiz', NULL),
 ('How to do a Science Fair Project', 'Website', 'NASA', 'https://www.jpl.nasa.gov/edu/learn/activities/science-fair-project/');
 

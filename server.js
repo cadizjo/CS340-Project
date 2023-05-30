@@ -43,7 +43,7 @@ app.get('/students', function(req, res) {
 
 app.get('/assignments', function(req, res) {
     var query1 = 
-    "SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title " +
+    "SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title " +
     "FROM Assignments " +
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
@@ -63,7 +63,7 @@ app.get('/assignments', function(req, res) {
 app.get('/roles', function(req, res) {
     var query1 = "SELECT * FROM Roles ORDER BY role_id;"
     var query2 = 
-    "SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title, Roles.title AS role_title " +
+    "SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Roles.title AS role_title " +
     "FROM Roles " +
     "INNER JOIN Assignments_has_Roles ON Roles.role_id = Assignments_has_Roles.role_id " +
     "INNER JOIN Assignments ON Assignments_has_Roles.assignment_id = Assignments.assignment_id " +
@@ -99,7 +99,39 @@ app.get('/tasks', function(req, res) {
 });
 
 app.get('/citations', function(req, res) {
-    res.status(200).render('citations');
+    var query1 = "SELECT * FROM Citations ORDER BY citation_id;"
+    var query2 = 
+    "SELECT Tasks.task_id AS task_id, Tasks.title AS task_title, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Citations.citation_id AS citation_id " +
+    "FROM Citations " +
+    "INNER JOIN Tasks_has_Citations ON Citations.citation_id = Tasks_has_Citations.citation_id " +
+    "INNER JOIN Tasks ON Tasks_has_Citations.task_id = Tasks.task_id " +
+    "INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id " +
+    "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
+    "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
+    "ORDER BY task_id;"
+    var query3 =
+    "SELECT Tasks.task_id AS task_id, Tasks.title AS task_title, Students.email, Projects.title AS project_title " +
+    "FROM Tasks " +
+    "INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id " +
+    "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
+    "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
+    "ORDER BY task_id;"
+    var query4 = "SELECT citation_id, title, author FROM Citations ORDER BY citation_id;"
+    var obj = {}
+
+    db.pool.query(query1, function(error, rows, fields) {
+        obj.citations = rows
+        db.pool.query(query2, function(error, rows, fields) {
+            obj.taskCitations = rows
+            db.pool.query(query3, function(error, rows, fields) {
+                obj.taskDropdown = rows
+                db.pool.query(query4, function(error, rows, fields) {
+                    obj.citationDropdown = rows
+                    res.status(200).render('citations', obj);
+                })
+            })
+        })
+    })
 });
 
 
@@ -275,6 +307,60 @@ app.post('/addAssignedRole', function(req, res) {
         // check if assigned role alredy exists in Assignments_has_Roles table before inserting new record
         if (rows.length > 0) {
             console.log("assigned role alredy exists")
+            res.sendStatus(410)
+        }
+        else {
+            db.pool.query(query2, function(error, rows, fields) {
+                if (error) {
+                    console.log(error)
+                    res.sendStatus(400)
+                }
+                else {
+                    res.sendStatus(200)
+                }
+            })        
+        } 
+    })
+})
+
+app.post('/addCitation', function(req, res) {
+    var data = req.body
+    
+    var query1 = `SELECT * FROM Citations WHERE title = '${data.title}' && author = '${data.author}';`
+    var query2 = `INSERT INTO Citations(title, source, author, url) VALUES ` +
+    `('${data.title}', '${data.source}', '${data.author}', '${data.url}');`
+
+    db.pool.query(query1, function(error, rows, fields) {
+        // check if citation w same title and author alredy exists in Citations table before inserting new record (since each title and author must be unique)
+        console.log(rows)
+        if (rows.length > 0) {
+            console.log("citation w same title and author alredy exists")
+            res.sendStatus(410)
+        }
+        else {
+            db.pool.query(query2, function(error, rows, fields) {
+                if (error) {
+                    console.log(error)
+                    res.sendStatus(400)
+                }
+                else {
+                    res.sendStatus(200)
+                }
+            })        
+        } 
+    })
+})
+
+app.post('/addTaskCitation', function(req, res) {
+    var data = req.body
+    
+    var query1 = `SELECT * FROM Tasks_has_Citations WHERE task_id = ${data.task} && citation_id = ${data.citation};`
+    var query2 = `INSERT INTO Tasks_has_Citations(task_id, citation_id) VALUES (${data.task}, ${data.citation});`
+
+    db.pool.query(query1, function(error, rows, fields) {
+        // check if task is alredy associated w citation in Tasks_has_Citations table before inserting new record
+        if (rows.length > 0) {
+            console.log("task citation alredy exists")
             res.sendStatus(410)
         }
         else {
