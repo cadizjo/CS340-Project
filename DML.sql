@@ -42,7 +42,10 @@ INSERT INTO Assignments(student_id, project_id) VALUES
 SELECT project_id, title FROM Projects ORDER BY project_id;
 
 -- get a single assignment's data for the 'Edit Assignment' form (M-to-M relationship update)
-SELECT assignment_id, student_id, project_id FROM Assignments WHERE assignment_id = :assignment_id_selected_from_browse_assignments_page;
+SELECT Students.email, Projects.project_id FROM Assignments
+INNER JOIN Students ON Assignments.student_id = Students.student_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
+WHERE assignment_id = :assignment_id_selected_from_browse_assignments_page;
 
 -- update an assignment based on submission of the 'Edit Assignment' form (M-to-M relationship update)
 UPDATE Assignments SET student_id = (SELECT student_id FROM Students WHERE email = :student_email_input), project_id = :project_id_input WHERE assignment_id = :assignment_id_from_update_form;
@@ -60,10 +63,17 @@ SELECT * FROM Roles ORDER BY role_id;
 INSERT INTO Roles(title) VALUES (:title_input);
 
 -- get all Roles associated w/an Assignment for 'Browse Assigned Roles' form
-SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title, Roles.title AS role
+SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS name, Projects.title AS project_title, Roles.title AS role_title
 FROM Roles
 INNER JOIN Assignments_has_Roles ON Roles.role_id = Assignments_has_Roles.role_id
 INNER JOIN Assignments ON Assignments_has_Roles.assignment_id = Assignments.assignment_id
+INNER JOIN Students ON Assignments.student_id = Students.student_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
+ORDER BY assignment_id;
+
+-- get all assignment ids with student email and project titles to populate assignment dropdown
+SELECT Assignments.assignment_id, Students.email, Projects.title
+FROM Assignments
 INNER JOIN Students ON Assignments.student_id = Students.student_id
 LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 ORDER BY assignment_id;

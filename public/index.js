@@ -56,17 +56,14 @@ function clearAddAssignmentInputs() {
 var record = {id: 0}    // stores ID of selected entity record
 
 function clearEditPopupInputs() {
-
     var email = document.getElementById('edit-assignment-email-input')
     var project = document.getElementById('edit-assignment-project-input')
 
     email.value = ''
     project.value = ''
-
 }
 
 function hideEditPopup() {
-
     var editPopup = document.getElementById('edit-assignment');
     var popupBackdrop = document.getElementById('popup-backdrop');
     
@@ -74,7 +71,6 @@ function hideEditPopup() {
     popupBackdrop.classList.add('hidden');
 
     clearEditPopupInputs();
-
 }
 
 
@@ -82,20 +78,38 @@ function hideEditPopup() {
     HELPER FUNCTION FOR DELETE ASSIGNMENT/PROJECT POPUP
 */
 function hideDeletePopup() {
-
     var deletePopup = document.getElementById('delete-popup');
     var popupBackdrop = document.getElementById('popup-backdrop');
     
     deletePopup.classList.add('hidden');
     popupBackdrop.classList.add('hidden');
+}
 
+
+/*
+    HELPER FUNCTION FOR ADD ROLE/ASSIGNED ROLE FORM
+*/
+function clearAddRoleInputs() {
+    var roleTitle = document.getElementById('add-role-title-input')
+    roleTitle.value = ''
+}
+
+function clearAddAssignedRoleInputs() {
+    var assignment = document.getElementById('add-role-assignment-assignment-input')
+    var role = document.getElementById('add-role-assignment-role-title-input')
+
+    assignment.value = ''
+    role.value = ''
 }
 
 
 window.addEventListener('DOMContentLoaded', function () {
 
-// event listener function could take in the path as a parameter to avoid repeated code but dont know how
+// event listener function could take in the path as a parameter to avoid repeated code but not sure how
 
+    /*
+        NAVBAR (VIEW PAGES)
+    */
     var projects_button = document.getElementById("projects-button")
     if (projects_button) {
         projects_button.addEventListener("click", function () {
@@ -324,6 +338,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 }).then(function(res) {
                     if (res.status == 409)
                         alert("Email not found. Please enter a valid email")
+                    else if (res.status == 410)
+                        alert("Assignment already exists. Please enter different assignment")
                     else if (res.status == 200)
                         window.location.href = "/assignments"
                 })
@@ -416,6 +432,10 @@ window.addEventListener('DOMContentLoaded', function () {
                         alert("Email not found. Please enter a valid email")
                         clearEditPopupInputs()
                     }
+                    else if (res.status == 410) {
+                        alert("Assignment already exists. Please enter different assignment")
+                        clearEditPopupInputs()
+                    }
                     else if (res.status == 200) {
                         hideEditPopup()
                         window.location.href = "/assignments"
@@ -503,4 +523,85 @@ window.addEventListener('DOMContentLoaded', function () {
     if (deleteCancelBtn) {
         deleteCancelBtn.addEventListener('click', hideDeletePopup);
     }
+
+
+    /*
+        ADD ROLE/ASSIGNED ROLE FORM
+    */
+    var addRoleAccept = document.getElementById('add-role-accept')
+    if (addRoleAccept) {
+        addRoleAccept.addEventListener('click', function(event) {
+            event.preventDefault()
+
+            var role = document.getElementById('add-role-title-input').value.trim()
+
+            if (!role) {
+                alert("Please enter a role title")
+            }
+            else {
+                fetch("/addRole", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        role: role
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 409)
+                        alert("Role exists. Please enter a different role title.")
+                    else if (res.status == 200) {
+                        window.location.href = "/roles"
+                    }
+                    clearAddRoleInputs()
+                })
+            }
+        })
+    }
+
+    var addRoleCancel = document.getElementById('add-role-cancel')
+    if (addRoleCancel) {
+        addRoleCancel.addEventListener('click', clearAddRoleInputs)
+    }
+
+    var addAssignedRoleAccept = document.getElementById('add-role-assignment-accept')
+    if (addAssignedRoleAccept) {
+        addAssignedRoleAccept.addEventListener('click', function(event) {
+            event.preventDefault()
+
+            var assignment = document.getElementById('add-role-assignment-assignment-input').value
+            var role = document.getElementById('add-role-assignment-role-title-input').value
+
+            if (!assignment || !role) {
+                alert("Please fill in all fields")
+            }
+            else {
+                fetch("/addAssignedRole", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        assignment: assignment,
+                        role: role
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+
+                }).then(function(res) {
+                    if (res.status == 410)
+                        alert("Assignment with that role already exists. Please enter a different role")
+                    else if (res.status == 200) {
+                        window.location.href = "/roles"
+                    }
+                    clearAddAssignedRoleInputs()
+                })
+            }
+        })
+    }
+
+    var addAssignedRoleCancel = document.getElementById('add-role-assignment-cancel')
+    if (addAssignedRoleCancel) {
+        addAssignedRoleCancel.addEventListener('click', clearAddAssignedRoleInputs)
+    }
+
 })
