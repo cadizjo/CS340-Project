@@ -617,8 +617,8 @@ window.addEventListener('DOMContentLoaded', function () {
                         alert("Assignment with that role already exists. Please enter a different role")
                     else if (res.status == 200) {
                         window.location.href = "/roles"
+                        clearAddAssignedRoleInputs()
                     }
-                    clearAddAssignedRoleInputs()
                 })
             }
         })

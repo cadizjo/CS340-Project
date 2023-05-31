@@ -141,16 +141,14 @@ app.get('/citations', function(req, res) {
 app.post('/addProject', function(req, res) {
     var data = req.body
     if (data.desc == '') data.desc = 'NULL'
-    if (data.startDate == '') data.startDate = 'NULL'
-    if (data.endDate == '') data.endDate = 'NULL'
     if (data.isActive == true) data.isActive = 1
     else if (data.isActive == false) data.isActive = 0
     if (data.isCollab == true) data.isCollab = 1
     else if (data.isCollab == false) data.isCollab = 0
     
     var query1 = `SELECT title FROM Projects;`
-    var query2 = `INSERT INTO Projects(title, description, start_date, end_date, is_active, is_collaborative) VALUES ` +
-    `('${data.title}', '${data.desc}', ${data.startDate}, ${data.endDate}, ${data.isActive}, ${data.isCollab});`
+    var query2 = `INSERT INTO Projects(title, description, is_active, is_collaborative) VALUES ` +
+    `('${data.title}', '${data.desc}', ${data.isActive}, ${data.isCollab});`
 
     db.pool.query(query1, function(error, rows, fields) {
         var project_titles = rows
@@ -167,14 +165,16 @@ app.post('/addProject', function(req, res) {
             res.sendStatus(409)
         }
         else {
+            // insert all fields except start and end dates (this will make both dates null by default)
+            // if user enters a start or end date, update newly inserted record with input (this is to fix null date INSERT issue)
             db.pool.query(query2, function(error, rows, fields) {
-                if (error) {
-                    console.log(error)
-                    res.sendStatus(400)
+                if (data.startDate != '') {
+                    db.pool.query(`UPDATE Projects SET start_date = '${data.startDate}' WHERE title = '${data.title}'`, function(error, rows, fields) {})
                 }
-                else {
-                    res.sendStatus(200)
+                if (data.endDate != '') {
+                    db.pool.query(`UPDATE Projects SET end_date = '${data.endDate}' WHERE title = '${data.title}'`, function(error, rows, fields) {})
                 }
+                res.sendStatus(200)
             })        
         } 
     })
