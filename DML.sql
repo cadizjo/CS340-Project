@@ -54,7 +54,7 @@ WHERE assignment_id = :assignment_id_selected_from_browse_assignments_page;
 UPDATE Assignments SET student_id = (SELECT student_id FROM Students WHERE email = :student_email_input), project_id = :project_id_input WHERE assignment_id = :assignment_id_from_update_form;
 
 -- gets data about a single assignment record for deletion
-SELECT Students.email, Projects.title FROM Assignments
+SELECT CONCAT(Students.f_name, ' ', Students.l_name) AS name, Students.email, Projects.title FROM Assignments
 INNER JOIN Students ON Assignments.student_id = Students.student_id
 LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 WHERE assignment_id = :assignment_id_selected_from_delete_form
@@ -105,6 +105,13 @@ INNER JOIN Students ON Assignments.student_id = Students.student_id
 LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
 WHERE email = :student_email_input
 ORDER BY task_id;
+
+-- get all assignment ids with student email and project titles to populate assignment dropdown
+SELECT Assignments.assignment_id, Students.email, Projects.title
+FROM Assignments
+INNER JOIN Students ON Assignments.student_id = Students.student_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
+ORDER BY assignment_id;
 
 -- add a new task for 'Add Task' form
 INSERT INTO Tasks(assignment_id, title, description, due_date, is_complete, has_citations) VALUES

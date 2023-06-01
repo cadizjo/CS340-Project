@@ -95,7 +95,28 @@ app.get('/roles', function(req, res) {
 });
 
 app.get('/tasks', function(req, res) {
-    res.status(200).render('tasks');
+    var query1 = 
+    "SELECT Tasks.task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Tasks.title AS task_title, Tasks.description, due_date, is_complete, has_citations " +
+    "FROM Tasks " +
+    "INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id " +
+    "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
+    "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
+    "ORDER BY task_id;"
+    var query2 = 
+    "SELECT Assignments.assignment_id, Students.email, Projects.title " +
+    "FROM Assignments " +
+    "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
+    "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
+    "ORDER BY assignment_id;"
+    var obj = {}
+
+    db.pool.query(query1, function(error, rows, fields) {
+        obj.data = rows
+        db.pool.query(query2, function(error, rows, fields) {
+            obj.dropdown = rows
+            res.status(200).render('tasks', obj);
+        })
+    })
 });
 
 app.get('/citations', function(req, res) {
@@ -297,6 +318,14 @@ app.post('/addRole', function(req, res) {
     })
 })
 
+app.post('/addTask', function(req, res) {
+   // get user input as req body
+   
+   // make query to check if task with the same assignment id and task title exist, if so return status error 409
+
+   // o/w insert new record with user inputted values and return status code 200
+})
+
 app.post('/addAssignedRole', function(req, res) {
     var data = req.body
     
@@ -464,7 +493,8 @@ app.post("/deleteAssignment", function (req, res) {
 // gets data about a single assignment record for deletion
 app.post('/singleAssignmentData', function(req, res) {
     var id = req.body.id
-    var query = `SELECT Students.email, Projects.title ` +
+    var query = 
+    `SELECT CONCAT(Students.f_name, ' ', Students.l_name) AS name, Students.email, Projects.title ` +
     `FROM Assignments ` +
     `INNER JOIN Students ON Assignments.student_id = Students.student_id ` +
     `LEFT JOIN Projects ON Assignments.project_id = Projects.project_id ` +

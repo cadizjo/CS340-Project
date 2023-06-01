@@ -104,6 +104,29 @@ function clearAddAssignedRoleInputs() {
 
 
 /*
+    HELPER FUNCTION FOR ADD TASK FORM
+*/
+function clearAddTaskInputs() {
+    var addTaskInputs = [
+        document.getElementById('add-task-assignment-id-input'),
+        document.getElementById('add-task-title-input'),
+        document.getElementById('add-task-description-input'),
+        document.getElementById('add-task-due-date-input')
+    ]
+
+    addTaskInputs.forEach(function(elem) {
+        elem.value = ''
+    })
+
+    var isComplete = document.getElementById('add-task-is-complete-input')
+    var hasCitations = document.getElementById('add-task-has-citations-input')
+
+    isComplete.checked = false
+    hasCitations.checked = false
+}
+
+
+/*
     HELPER FUNCTIONS FOR ADD CITATION/TASK CITATION FORM
 */
 function clearAddCitationInputs() {
@@ -517,7 +540,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
                         if (data[0].title == null) data[0].title = "NULL"
 
-                        deleteRecordDetails.textContent = data[0].email + " - " + data[0].title
+                        deleteRecordDetails.textContent = data[0].name + " (" + data[0].email + ")" + " - " + data[0].title
                     })
                 }
     
@@ -675,6 +698,18 @@ window.addEventListener('DOMContentLoaded', function () {
     if (addAssignedRoleCancel) {
         addAssignedRoleCancel.addEventListener('click', clearAddAssignedRoleInputs)
     }
+
+
+    /*
+        ADD TASK FORM
+    */
+    // set event listener for add task button
+
+    // get user inputs from html form
+
+    // alert if no assignment id or task title entered
+
+    // o/w send fetch req to 'addTask' (insert into tasks or alert if task with same assignment id and task title exists)
 
 
     /*

@@ -21,46 +21,26 @@
     <div class="crud-box">
         <h3 class="crud-title">Browse Assigned Tasks</h3>
         <table class="search-results" border="1" cellpadding="5">
-            <tr>
-                <th>Task ID</th>
-                <th>Student Name</th>
-                <th>Project Title</th>
-                <th>Task Title</th>
-                <th>Description</th>
-                <th>Due Date</th>
-                <th>Complete?</th>
-                <th>Citations?</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Eric Saylor</td>
-                <td>Biology Group Final</td>
-                <td>Design a biology experiment.</td>
-                <td>Perform background research and find data to begin making an experiment.</td>
-                <td>2023-04-10</td>
-                <td>NO</td>
-                <td>YES</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Dana Holt</td>
-                <td>Biology Group Final</td>
-                <td>Gather materials for the experiment.</td>
-                <td>Note: Consult the teacher for any  assistance.</td>
-                <td>2023-04-12</td>
-                <td>NO</td>
-                <td>NO</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Lillian Waldo</td>
-                <td>Spring Science Fair Project</td>
-                <td>Create experimental procedures for plant project.</td>
-                <td>Develop a set of guidelines that will be used to study plants. Refer to samples online for assistance.</td>
-                <td>2023-02-02</td>
-                <td>NO</td>
-                <td>YES</td>
-            </tr>
+            <thead>
+                {{#each data.[0]}}
+                <th>{{@key}}</th>
+                {{/each}}
+            </thead>
+
+            <tbody>
+                {{#each data}}
+                <tr>
+                    <td>{{this.task_id}}</td>
+                    <td>{{this.student_name}}</td>
+                    {{#if this.project_title}} <td>{{this.project_title}}</td> {{else}} <td>NULL</td> {{/if}}
+                    <td>{{this.task_title}}</td>
+                    {{#if this.description}} <td>{{this.description}}</td> {{else}} <td>NULL</td> {{/if}}
+                    {{#if this.due_date}} <td>{{this.due_date}}</td> {{else}} <td>NULL</td> {{/if}}
+                    <td>{{this.is_complete}}</td>
+                    <td>{{this.has_citations}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
         </table>
     </div>
 
@@ -70,8 +50,12 @@
         <h3 class="crud-title">Add Task to Assignment</h3>
         <form class="insert-form">
             <fieldset class="fields">
-                <label for="assignment-id">Assignment ID</label> 
-                <input id="add-task-assignment-id-input" type="number" name="assignment-id">
+                <label for="assignment">Assignment</label> 
+                <select id="add-task-assignment-id-input" name="assignment">
+                    {{#each dropdown}}
+                    <option value="{{this.assignment_id}}">{{this.email}} - {{#if this.title}} {{this.title}} {{else}} NULL {{/if}}</option>
+                    {{/each}}
+                </select>
 
                 <label for="task-title">Task Title</label> 
                 <input id="add-task-title-input" type="text" name="task-title">
