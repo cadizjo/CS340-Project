@@ -364,12 +364,12 @@ window.addEventListener('DOMContentLoaded', function () {
                     if (res.status == 409)
                         alert("Email not found. Please enter a valid email")
                     else if (res.status == 410)
-                        alert("Assignment already exists. Please enter different assignment")
-                    else if (res.status == 200)
+                        alert("Assignment already exists. Please enter a different assignment")
+                    else if (res.status == 200) {
                         window.location.href = "/assignments"
+                        clearAddAssignmentInputs()
+                    }
                 })
-            
-                clearAddAssignmentInputs()
             }
         })
     }
@@ -455,11 +455,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 }).then(function(res) {
                     if (res.status == 409) {
                         alert("Email not found. Please enter a valid email")
-                        clearEditPopupInputs()
                     }
                     else if (res.status == 410) {
                         alert("Assignment already exists. Please enter different assignment")
-                        clearEditPopupInputs()
                     }
                     else if (res.status == 200) {
                         hideEditPopup()
@@ -492,12 +490,61 @@ window.addEventListener('DOMContentLoaded', function () {
                 // whenever delete button is clicked, use event obj to locate adjacent/corresponding record ID
                 var btnClicked = event.currentTarget
                 record.id = btnClicked.parentElement.parentElement.getAttribute("data-value")
-            
-                var deletePopup = document.getElementById('delete-popup');
-                var popupBackdrop = document.getElementById('popup-backdrop');
 
-                deletePopup.classList.remove('hidden');
-                popupBackdrop.classList.remove('hidden');
+                // check if record is an assignment or project
+                var pageTitle = event.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.firstElementChild.textContent
+
+                if (pageTitle == "Assignments") {
+                    // send post request to server with assignment_id as body
+                    fetch("/singleAssignmentData", {
+                        method: "POST",
+                        body: JSON.stringify(record), 
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // show popup
+                        var deletePopup = document.getElementById('delete-popup');
+                        var popupBackdrop = document.getElementById('popup-backdrop');
+
+                        deletePopup.classList.remove('hidden');
+                        popupBackdrop.classList.remove('hidden');
+
+                        // pre-fill delete popup with selected assignment record data
+                        var deleteRecordDetails = document.getElementById("delete-popup-record-details")
+
+                        if (data[0].title == null) data[0].title = "NULL"
+
+                        deleteRecordDetails.textContent = data[0].email + " - " + data[0].title
+                    })
+                }
+    
+                else {
+                    // send post request to server with project_id as body
+                    fetch("/singleProjectData", {
+                        method: "POST",
+                        body: JSON.stringify(record), 
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // show popup
+                        var deletePopup = document.getElementById('delete-popup');
+                        var popupBackdrop = document.getElementById('popup-backdrop');
+
+                        deletePopup.classList.remove('hidden');
+                        popupBackdrop.classList.remove('hidden');
+
+                        // pre-fill delete popup with selected project record data
+                        var deleteRecordDetails = document.getElementById("delete-popup-record-details")
+
+                        deleteRecordDetails.textContent = data[0].title
+                    })
+                } 
             })
         }
     }
@@ -578,8 +625,8 @@ window.addEventListener('DOMContentLoaded', function () {
                         alert("Role exists. Please enter a different role title.")
                     else if (res.status == 200) {
                         window.location.href = "/roles"
+                        clearAddRoleInputs()
                     }
-                    clearAddRoleInputs()
                 })
             }
         })

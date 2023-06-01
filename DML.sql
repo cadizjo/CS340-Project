@@ -10,6 +10,9 @@ SELECT * FROM Projects ORDER BY project_id;
 INSERT INTO Projects(title, description, start_date, end_date, is_active, is_collaborative) VALUES
 (:title_input, :description_input, :start_date_input, :end_date_input, :is_active_input, is_collaborative_input);
 
+-- gets data about a single project record for deletion
+SELECT Projects.title FROM Projects WHERE project_id = :project_id_selected_from_delete_form
+
 -- delete a project for 'Delete Project' form
 DELETE FROM Projects WHERE project_id = :project_id_selected_from_browse_projects_page;
 
@@ -49,6 +52,12 @@ WHERE assignment_id = :assignment_id_selected_from_browse_assignments_page;
 
 -- update an assignment based on submission of the 'Edit Assignment' form (M-to-M relationship update)
 UPDATE Assignments SET student_id = (SELECT student_id FROM Students WHERE email = :student_email_input), project_id = :project_id_input WHERE assignment_id = :assignment_id_from_update_form;
+
+-- gets data about a single assignment record for deletion
+SELECT Students.email, Projects.title FROM Assignments
+INNER JOIN Students ON Assignments.student_id = Students.student_id
+LEFT JOIN Projects ON Assignments.project_id = Projects.project_id
+WHERE assignment_id = :assignment_id_selected_from_delete_form
 
 -- dis-associate a project from a student for 'Delete Assignment' form (M-to-M relationship deletion)
 DELETE FROM Assignments WHERE assignment_id = :assignment_id_from_delete_form;

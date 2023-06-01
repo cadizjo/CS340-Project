@@ -427,7 +427,7 @@ app.post("/updateAssignment", function (req, res) {
     })
 });
 
-// gets data about a specific assignment record
+// gets data about a specific assignment record for editing
 app.post('/assignmentData', function(req, res) {
     var id = req.body.id
     var query = `SELECT Students.email, Projects.project_id ` +
@@ -461,6 +461,21 @@ app.post("/deleteAssignment", function (req, res) {
     })
 });
 
+// gets data about a single assignment record for deletion
+app.post('/singleAssignmentData', function(req, res) {
+    var id = req.body.id
+    var query = `SELECT Students.email, Projects.title ` +
+    `FROM Assignments ` +
+    `INNER JOIN Students ON Assignments.student_id = Students.student_id ` +
+    `LEFT JOIN Projects ON Assignments.project_id = Projects.project_id ` +
+    `WHERE assignment_id = ${id};`
+
+    db.pool.query(query, function(error, rows, fields) {
+        console.log(rows)
+        res.send(rows)
+    })
+})
+
 app.post("/deleteProject", function (req, res) {
     console.log("\nDelete Project ID: ", req.body.id)
     var data = req.body
@@ -475,6 +490,18 @@ app.post("/deleteProject", function (req, res) {
         }
     })
 });
+
+// gets data about a single project record for deletion
+app.post('/singleProjectData', function(req, res) {
+    var id = req.body.id
+    var query = `SELECT Projects.title FROM Projects WHERE project_id = ${id};`
+
+    db.pool.query(query, function(error, rows, fields) {
+        console.log(rows)
+        res.send(rows)
+    })
+})
+
 
 app.get("*", function (req, res) {
     console.log("\n  -- 404!");
