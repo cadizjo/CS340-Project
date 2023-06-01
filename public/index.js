@@ -540,7 +540,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
                         if (data[0].title == null) data[0].title = "NULL"
 
-                        deleteRecordDetails.textContent = data[0].name + " (" + data[0].email + ")" + " - " + data[0].title
+                        deleteRecordDetails.textContent = data[0].name + " - " + data[0].email + " - " + data[0].title
                     })
                 }
     
