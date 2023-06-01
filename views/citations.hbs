@@ -64,9 +64,10 @@
                 {{#each taskCitations}}
                 <tr>
                     <td>{{this.task_id}}</td>
-                    <td>{{this.task_title}}</td>
                     <td>{{this.student_name}}</td>
+                    <td>{{this.student_email}}</td>
                     {{#if this.project_title}} <td>{{this.project_title}}</td> {{else}} <td>NULL</td> {{/if}}
+                    <td>{{this.task_title}}</td>
                     <td>{{this.citation_id}}</td>
                 </tr>
                 {{/each}}
@@ -83,7 +84,7 @@
                 <label for="task">Task</label> 
                 <select id="add-citation-task-task-input" name="task">
                     {{#each taskDropdown}}
-                    <option value="{{this.task_id}}">{{this.task_title}} - {{this.email}} - {{#if this.project_title}} {{this.project_title}} {{else}} NULL {{/if}}</option>
+                    <option value="{{this.task_id}}">{{this.email}} - {{#if this.project_title}} {{this.project_title}} {{else}} NULL {{/if}} - {{this.task_title}}</option>
                     {{/each}}
                 </select>
 

@@ -43,7 +43,7 @@ app.get('/students', function(req, res) {
 
 app.get('/assignments', function(req, res) {
     var query1 = 
-    "SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title " +
+    "SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title " +
     "FROM Assignments " +
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
@@ -63,7 +63,7 @@ app.get('/assignments', function(req, res) {
 app.get('/roles', function(req, res) {
     var query1 = "SELECT * FROM Roles ORDER BY role_id;"
     var query2 = 
-    "SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Roles.title AS role_title " +
+    "SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title, Roles.title AS role_title " +
     "FROM Roles " +
     "INNER JOIN Assignments_has_Roles ON Roles.role_id = Assignments_has_Roles.role_id " +
     "INNER JOIN Assignments ON Assignments_has_Roles.assignment_id = Assignments.assignment_id " +
@@ -96,7 +96,7 @@ app.get('/roles', function(req, res) {
 
 app.get('/tasks', function(req, res) {
     var query1 = 
-    "SELECT Tasks.task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Tasks.title AS task_title, Tasks.description, due_date, is_complete, has_citations " +
+    "SELECT Tasks.task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title, Tasks.title AS task_title, Tasks.description, due_date, is_complete, has_citations " +
     "FROM Tasks " +
     "INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id " +
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
@@ -122,7 +122,7 @@ app.get('/tasks', function(req, res) {
 app.get('/citations', function(req, res) {
     var query1 = "SELECT * FROM Citations ORDER BY citation_id;"
     var query2 = 
-    "SELECT Tasks.task_id AS task_id, Tasks.title AS task_title, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Projects.title AS project_title, Citations.citation_id AS citation_id " +
+    "SELECT Tasks.task_id AS task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title, Tasks.title AS task_title, Citations.citation_id AS citation_id " +
     "FROM Citations " +
     "INNER JOIN Tasks_has_Citations ON Citations.citation_id = Tasks_has_Citations.citation_id " +
     "INNER JOIN Tasks ON Tasks_has_Citations.task_id = Tasks.task_id " +
@@ -131,7 +131,7 @@ app.get('/citations', function(req, res) {
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
     "ORDER BY task_id;"
     var query3 =
-    "SELECT Tasks.task_id AS task_id, Tasks.title AS task_title, Students.email, Projects.title AS project_title " +
+    "SELECT Tasks.task_id AS task_id, Students.email, Projects.title AS project_title, Tasks.title AS task_title " +
     "FROM Tasks " +
     "INNER JOIN Assignments ON Tasks.assignment_id = Assignments.assignment_id " +
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
