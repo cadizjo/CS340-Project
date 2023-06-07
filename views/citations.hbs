@@ -1,16 +1,20 @@
+{{!-- Citations page --}}
 <main id="citations-main-box" class="page-box">
     <h2 class="page-title">Citations</h2>
 
+    {{!-- Table displaying citation data --}}
     <div class="crud-box">
         <h3 class="crud-title">Browse Citations</h3>
         <table class="search-results" border="1" cellpadding="5">
             <thead>
+                {{!-- print each attribute's key of a row object as a header cell  --}}
                 {{#each citations.[0]}}
                 <th>{{@key}}</th>
                 {{/each}}
             </thead>
 
             <tbody>
+                {{!-- print attributes for each row of data --}}
                 {{#each citations}}
                 <tr data-value={{this.citation_id}}>
                     <td>{{this.citation_id}}</td>
@@ -26,6 +30,7 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Add Citation form --}}
     <div class="crud-box">
         <h3 class="crud-title">Add Citation</h3>
         <form class="insert-form">
@@ -51,16 +56,19 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Table displaying Task-Citation data --}}
     <div class="crud-box">
         <h3 class="crud-title">Browse Task Citations</h3>
         <table class="search-results" border="1" cellpadding="5">
             <thead>
+                {{!-- print each attribute's key of a row object as a header cell  --}}
                 {{#each taskCitations.[0]}}
                 <th>{{@key}}</th>
                 {{/each}}
             </thead>
 
             <tbody>
+                {{!-- print attributes for each row of data --}}
                 {{#each taskCitations}}
                 <tr>
                     <td>{{this.task_id}}</td>
@@ -77,10 +85,12 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Add Task-Citation Form --}}
     <div class="crud-box">
         <h3 class="crud-title">Add Citation to Task</h3>
         <form class="search-box">
             <fieldset class="fields">
+                {{!-- Task select dropdown for Task-Citation  --}}
                 <label for="task">Task</label> 
                 <select id="add-citation-task-task-input" name="task">
                     {{#each taskDropdown}}
@@ -88,6 +98,7 @@
                     {{/each}}
                 </select>
 
+                {{!-- Citation select dropdown for Task-Citation  --}}
                 <label for="citation">Citation</label> 
                 <select id="add-citation-task-citation-input" name="citation">
                     {{#each citationDropdown}}

@@ -1,7 +1,9 @@
+{{!-- Assignments page --}}
 <div id="popup-backdrop" class="hidden"></div>
 <main id="assignments-main-box" class="page-box">
     <h2 class="page-title">Assignments</h2>
 
+    {{!-- Table displaying assignment data --}}
     <div id="browse-assignment" class="crud-box">
         <h3 class="crud-title">Browse Student Assignments</h3>
         <table class="search-results" border="1" cellpadding="5">
@@ -34,6 +36,7 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Add assignment form --}}
     <div id="add-assignment" class="crud-box">
         <h3 class="crud-title">Add Project to Student</h3>
         <form class="insert-form">
@@ -41,6 +44,7 @@
                 <label for="email">Student Email</label> 
                 <input id="add-assignment-email-input" type="email" name="email">
 
+                {{!-- Project select dropdown for assignments  --}}
                 <label for="project-title">Project Title</label>
                 <select id="add-assignment-project-input" name="project-title">
                     <option value="0">NULL</option>
@@ -58,12 +62,14 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Edit assignment form --}}
     <div id="edit-assignment" class="hidden" class="crud-box">
         <h3 class="crud-title">Edit Student Assignment</h3>
         <form class="update-form">
             <label for="email">Student Email</label> 
             <input id="edit-assignment-email-input" type="email" name="email">
             
+            {{!-- Project select dropdown for assignments  --}}
             <label for="project-title">Project Title</label>
             <select id="edit-assignment-project-input" name="project-title">
                 <option value="0">NULL</option>

@@ -1,3 +1,4 @@
+{{!-- Tasks Page --}}
 <main id="tasks-main-box" class="page-box">
     <h2 class="page-title">Tasks</h2>
     
@@ -18,16 +19,19 @@
 
     {{!-- <p>&nbsp;</p> --}}
 
+    {{!-- Table displaying Assignment-Task data --}}
     <div class="crud-box">
         <h3 class="crud-title">Browse Assigned Tasks</h3>
         <table class="search-results" border="1" cellpadding="5">
             <thead>
+                {{!-- print each attribute's key of a row object as a header cell  --}}
                 {{#each data.[0]}}
                 <th>{{@key}}</th>
                 {{/each}}
             </thead>
 
             <tbody>
+                {{!-- print attributes for each row of data --}}
                 {{#each data}}
                 <tr>
                     <td>{{this.task_id}}</td>
@@ -47,10 +51,12 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Add Task-Assignment Form --}}
     <div class="crud-box">
         <h3 class="crud-title">Add Task to Assignment</h3>
         <form class="insert-form">
             <fieldset class="fields">
+                {{!-- Assignment select dropdown for Task-assignment  --}}
                 <label for="assignment">Assignment</label> 
                 <select id="add-task-assignment-id-input" name="assignment">
                     {{#each dropdown}}

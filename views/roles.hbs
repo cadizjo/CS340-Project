@@ -1,16 +1,20 @@
+{{!-- Roles Page --}}
 <main id="citations-main-box" class="page-box">
     <h2 class="page-title">Roles</h2>
 
+    {{!-- Table displaying Role data --}}
     <div class="crud-box">
         <h3 class="crud-title">Browse Roles </h3>
         <table class="search-results" border="1" cellpadding="5">
             <thead>
+                {{!-- print each attribute's key of a row object as a header cell  --}}
                 {{#each roles.[0]}}
                 <th>{{@key}}</th>
                 {{/each}}
             </thead>
 
             <tbody>
+                {{!-- print attributes for each row of data --}}
                 {{#each roles}}
                 <tr data-value={{this.role_id}}>
                     <td>{{this.role_id}}</td>
@@ -23,6 +27,7 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Add Role Form --}}
     <div class="crud-box">
         <h3 class="crud-title">Add Role</h3>
         <form class="insert-form">
@@ -39,16 +44,19 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Table displaying Assignment-Role data --}}
     <div class="crud-box">
         <h3 class="crud-title">Browse Assigned Roles </h3>
         <table class="search-results" border="1" cellpadding="5">
             <thead>
+                {{!-- print each attribute's key of a row object as a header cell  --}}
                 {{#each assignedRoles.[0]}}
                 <th>{{@key}}</th>
                 {{/each}}
             </thead>
 
             <tbody>
+                {{!-- print attributes for each row of data --}}
                 {{#each assignedRoles}}
                 <tr>
                     <td>{{this.assignment_id}}</td>
@@ -64,10 +72,12 @@
 
     <p>&nbsp;</p>
 
+    {{!-- Add Role Assignment Form --}}
     <div class="crud-box">
         <h3 class="crud-title">Add Role to Assignment</h3>
         <form class="search-box">
             <fieldset class="fields">
+                {{!-- Assignment select dropdown for Role-assignments  --}}
                 <label for="assignment">Assignment</label> 
                 <select id="add-role-assignment-assignment-input" name="assignment">
                     {{#each assignmentDropdown}}
@@ -75,6 +85,7 @@
                     {{/each}}
                 </select>
 
+                {{!-- Role select dropdown for Role-assignments  --}}
                 <label for="role-title">Role Title</label> 
                 <select id="add-role-assignment-role-title-input" name="role-title">
                     {{#each roleDropdown}}
