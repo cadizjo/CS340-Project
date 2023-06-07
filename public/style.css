@@ -41,12 +41,13 @@ header {
     padding: 20px;
     color: #333;
     display: block;
+    border-radius: 25px;
 }
 
 .navbar li:hover {
     cursor: pointer;
-    opacity: 0.5;
-    transition-timing-function: ease-in-out;
+    background-color: #f2f2f2;
+    transition: background-color 300ms linear;
 }
 
 #home-button a, .home-nav-btn {
@@ -109,4 +110,9 @@ i:hover {
 
 .buttons {
     margin: 5px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
 }
