@@ -11,7 +11,7 @@ const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
-app.use(express.static("public/"))              // all files in public directory can be viewed as static files
+app.use(express.static("public/"))              // all files in public directory are treated as static files
 app.use(express.json())                         // to read/handle/parse JSON objects
 app.use(express.urlencoded({extended: true}))
                 
@@ -24,10 +24,11 @@ app.use(express.urlencoded({extended: true}))
     PROCESS SELECT/READ QUERIES
 */
 app.get('/', function(req, res) {
-    res.status(200).render('index');    
+    res.status(200).render('index'); // home page   
 });              
 
 app.get('/projects', function(req, res) {
+    // query all project data for page display
     var query = "SELECT * FROM Projects ORDER BY project_id;"
     db.pool.query(query, function(error, rows, fields) {
         res.status(200).render('projects', {data: rows});
@@ -35,6 +36,7 @@ app.get('/projects', function(req, res) {
 });
 
 app.get('/students', function(req, res) {
+    // query all student data for page display
     var query = "SELECT student_id, CONCAT(f_name, ' ', l_name) AS name, email, phone FROM Students ORDER BY student_id;"
     db.pool.query(query, function(error, rows, fields) {
         res.status(200).render('students', {data: rows});
@@ -42,12 +44,14 @@ app.get('/students', function(req, res) {
 });
 
 app.get('/assignments', function(req, res) {
+    // query all assignment data for page display
     var query1 = 
     "SELECT assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title " +
     "FROM Assignments " +
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
     "ORDER BY assignment_id;"
+    // query all project data for dropdown selection
     var query2 = "SELECT project_id, title FROM Projects ORDER BY project_id;"
     var obj = {}
 
@@ -61,7 +65,9 @@ app.get('/assignments', function(req, res) {
 });
 
 app.get('/roles', function(req, res) {
+    // query all role data for page display
     var query1 = "SELECT * FROM Roles ORDER BY role_id;"
+    // query all assignment-role data for page display
     var query2 = 
     "SELECT Assignments.assignment_id AS assignment_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title, Roles.title AS role_title " +
     "FROM Roles " +
@@ -70,12 +76,14 @@ app.get('/roles', function(req, res) {
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
     "ORDER BY assignment_id;"
+    // query all assignment data for dropdown selection
     var query3 = 
     "SELECT Assignments.assignment_id, Students.email, Projects.title " +
     "FROM Assignments " +
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
     "ORDER BY assignment_id;"
+    // query all role data for dropdown selection
     var query4 = "SELECT role_id, title FROM Roles ORDER BY role_id;"
     var obj = {}
 
@@ -95,6 +103,7 @@ app.get('/roles', function(req, res) {
 });
 
 app.get('/tasks', function(req, res) {
+    // query all task data for page display
     var query1 = 
     "SELECT Tasks.task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title, Tasks.title AS task_title, Tasks.description, due_date, is_complete, has_citations " +
     "FROM Tasks " +
@@ -102,6 +111,7 @@ app.get('/tasks', function(req, res) {
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
     "ORDER BY task_id;"
+    // query all assignment data for dropdown selection
     var query2 = 
     "SELECT Assignments.assignment_id, Students.email, Projects.title " +
     "FROM Assignments " +
@@ -120,7 +130,9 @@ app.get('/tasks', function(req, res) {
 });
 
 app.get('/citations', function(req, res) {
+    // query all citation data for page display
     var query1 = "SELECT * FROM Citations ORDER BY citation_id;"
+    // query all task-citation data for page display
     var query2 = 
     "SELECT Tasks.task_id AS task_id, CONCAT(Students.f_name, ' ', Students.l_name) AS student_name, Students.email AS student_email, Projects.title AS project_title, Tasks.title AS task_title, Citations.citation_id AS citation_id " +
     "FROM Citations " +
@@ -130,6 +142,7 @@ app.get('/citations', function(req, res) {
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
     "ORDER BY task_id;"
+    // query all task data for dropdown selection
     var query3 =
     "SELECT Tasks.task_id AS task_id, Students.email, Projects.title AS project_title, Tasks.title AS task_title " +
     "FROM Tasks " +
@@ -137,6 +150,7 @@ app.get('/citations', function(req, res) {
     "INNER JOIN Students ON Assignments.student_id = Students.student_id " +
     "LEFT JOIN Projects ON Assignments.project_id = Projects.project_id " +
     "ORDER BY task_id;"
+    // query all citation data for dropdown selection
     var query4 = "SELECT citation_id, title, author FROM Citations ORDER BY citation_id;"
     var obj = {}
 
@@ -160,6 +174,7 @@ app.get('/citations', function(req, res) {
     PROCESS CREATE/INSERT QUERIES 
 */
 app.post('/addProject', function(req, res) {
+    // get user input as req body
     var data = req.body
     if (data.desc == '') data.desc = 'NULL'
     if (data.isActive == true) data.isActive = 1
@@ -167,21 +182,13 @@ app.post('/addProject', function(req, res) {
     if (data.isCollab == true) data.isCollab = 1
     else if (data.isCollab == false) data.isCollab = 0
     
-    var query1 = `SELECT title FROM Projects;`
+    var query1 = `SELECT * FROM Projects WHERE title = '${data.title}';`
     var query2 = `INSERT INTO Projects(title, description, is_active, is_collaborative) VALUES ` +
     `('${data.title}', '${data.desc}', ${data.isActive}, ${data.isCollab});`
 
     db.pool.query(query1, function(error, rows, fields) {
-        var project_titles = rows
-        var is_valid = true
         // check if project w same title alredy exists in Projects table before inserting new record (since each title must be unique)
-        for (var i = 0; i < project_titles.length; i++) {
-            if (project_titles[i].title == data.title) {
-                is_valid = false
-                break
-            }
-        }
-        if (is_valid == false) {
+        if (rows.length > 0) {
             console.log("project title alredy exists")
             res.sendStatus(409)
         }
@@ -205,21 +212,13 @@ app.post('/addStudent', function(req, res) {
     var data = req.body
     if (data.phone == '') data.phone = 'NULL'
     
-    var query1 = `SELECT email FROM Students;`
+    var query1 = `SELECT * FROM Students WHERE email = '${data.email}';`
     var query2 = `INSERT INTO Students(f_name, l_name, email, phone) VALUES` +
     `('${data.fname}', '${data.lname}', '${data.email}', '${data.phone}');`
 
     db.pool.query(query1, function(error, rows, fields) {
-        var student_emails = rows
-        var is_valid = true
         // check if student w same email alredy exists in Students table before inserting new record (since each email must be unique)
-        for (var i = 0; i < student_emails.length; i++) {
-            if (student_emails[i].email == data.email) {
-                is_valid = false
-                break
-            }
-        }
-        if (is_valid == false) {
+        if (rows.length > 0) {
             console.log("student email alredy exists")
             res.sendStatus(409)
         }
@@ -242,21 +241,15 @@ app.post('/addAssignment', function(req, res) {
     if (data.project == 0) 
         data.project = 'NULL'
 
-    var query1 = "SELECT email FROM Students"
+    var query1 = `SELECT * FROM Students WHERE email = '${data.email}'`
     var query2 = `SELECT assignment_id FROM Assignments ` +
     `WHERE student_id = (SELECT student_id FROM Students WHERE email = '${data.email}') && project_id = ${data.project};`
     var query3 = `INSERT INTO Assignments(student_id, project_id) VALUES ` + 
     `((SELECT student_id FROM Students WHERE email = '${data.email}'), ${data.project});`
 
     db.pool.query(query1, function(error, rows, fields) {
-        var student_emails = rows
-        var is_valid = false
         // check if email exists in Students table before inserting new record
-        for (var i = 0; i < student_emails.length; i++) {
-            if (student_emails[i].email == data.email)
-                is_valid = true
-        }
-        if (is_valid == false) {
+        if (rows.length == 0) {
             console.log("email does not exist")
             res.sendStatus(409)
         }
@@ -287,20 +280,12 @@ app.post('/addAssignment', function(req, res) {
 app.post('/addRole', function(req, res) {
     var data = req.body
     
-    var query1 = `SELECT title FROM Roles;`
+    var query1 = `SELECT * FROM Roles WHERE title = '${data.role}';`
     var query2 = `INSERT INTO Roles(title) VALUES ('${data.role}');`
 
     db.pool.query(query1, function(error, rows, fields) {
-        var role_titles = rows
-        var is_valid = true
         // check if role w same title alredy exists in Roles table before inserting new record (since each role title must be unique)
-        for (var i = 0; i < role_titles.length; i++) {
-            if (role_titles[i].title.toLowerCase() == data.role.toLowerCase()) {
-                is_valid = false
-                break
-            }
-        }
-        if (is_valid == false) {
+        if (rows.length > 0) {
             console.log("role title alredy exists")
             res.sendStatus(409)
         }
@@ -316,38 +301,6 @@ app.post('/addRole', function(req, res) {
             })        
         } 
     })
-})
-
-app.post('/addTask', function(req, res) {
-    console.log("made it here");
-    var data = req.body
-    if (data.project == 0) 
-        data.project = 'NULL'
-   // get user input as req body
-   
-   var query1 = `SELECT task_id FROM Tasks ` +
-   `WHERE assignment_id = (SELECT assignment_id FROM Tasks WHERE assignment_id = '${data.assignment}') && title = ${data.title};`
-   var query2 = `INSERT INTO Tasks(assignment_id, title, description,due_date,is_complete,has_citations) VALUES ` + 
-   `(${data.assignment}, ${data.title}, ${data.description}, ${data.due_date},${data.is_complete}, ${data.has_citations});`
-   db.pool.query(query1, function(error, rows, fields) {
-    console.log(rows)
-    if (rows.length > 0) {
-        console.log("assigned task already exists")
-        res.sendStatus(409)
-    }
-    else {
-        db.pool.query(query2, function(error, rows, fields) {
-            console.log("made it here");
-            if (error) {
-                console.log(error)
-                res.sendStatus(400)
-            }
-            else {
-                res.sendStatus(200)
-            }
-        })        
-    } 
-})
 })
 
 app.post('/addAssignedRole', function(req, res) {
@@ -372,6 +325,40 @@ app.post('/addAssignedRole', function(req, res) {
                     res.sendStatus(200)
                 }
             })        
+        } 
+    })
+})
+
+app.post('/addTask', function(req, res) {
+    var data = req.body
+    if (data.desc == '') data.desc = 'NULL'
+    if (data.isComplete == true) data.isComplete = 1
+    else if (data.isComplete == false) data.isComplete = 0
+    if (data.hasCitations == true) data.hasCitations = 1
+    else if (data.hasCitations == false) data.hasCitations = 0
+    
+    var query1 = `SELECT * FROM Tasks WHERE assignment_id = ${data.assignment} && title = '${data.title}';`
+    var query2 = `INSERT INTO Tasks(assignment_id, title, description, is_complete, has_citations) VALUES ` + 
+    `(${data.assignment}, '${data.title}', '${data.desc}', ${data.isComplete}, ${data.hasCitations});`
+
+    db.pool.query(query1, function(error, rows, fields) {
+        // check if task w same assignment and title alredy exists in Tasks table before inserting new record (since each assignment+title must be unique)
+        if (rows.length > 0) {
+            console.log("task w same assignment and title already exists")
+            res.sendStatus(409)
+        }
+        else {
+            // insert all fields except due date (this will make it null by default)
+            // if user enters a due date, update newly inserted record with input (this is to fix null date INSERT issue)
+            db.pool.query(query2, function(error, rows, fields) {
+                if (data.dueDate != '') {
+                    db.pool.query(`UPDATE Tasks SET due_date = '${data.dueDate}' WHERE assignment_id = ${data.assignment} && title = '${data.title}'`, function(error, rows, fields) {
+                        if (error)
+                            console.log(error)
+                    })
+                }
+                res.sendStatus(200)
+            })         
         } 
     })
 })
@@ -440,20 +427,14 @@ app.post("/updateAssignment", function (req, res) {
     if (data.project == 0) 
         data.project = 'NULL'
 
-    var query1 = "SELECT email FROM Students"
+    var query1 = `SELECT * FROM Students WHERE email = '${data.email}'`
     var query2 = `SELECT assignment_id FROM Assignments ` +
     `WHERE student_id = (SELECT student_id FROM Students WHERE email = '${data.email}') && project_id = ${data.project};`
     var query3 = `UPDATE Assignments SET student_id = (SELECT student_id FROM Students WHERE email = '${data.email}'), project_id = ${data.project} WHERE assignment_id = ${data.id};`
 
     db.pool.query(query1, function(error, rows, fields) {
-        var student_emails = rows
-        var is_valid = false
         // check if email exists in Students table before updating selected record
-        for (var i = 0; i < student_emails.length; i++) {
-            if (student_emails[i].email == data.email)
-                is_valid = true
-        }
-        if (is_valid == false) {
+        if (rows.length == 0) {
             console.log("email does not exist")
             res.sendStatus(409)
         }

@@ -261,6 +261,21 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     /*
+        INSERT FUNCTIONALITY FOR EACH ENTITY
+
+        General steps:
+
+        - set event listener for submit btn on corresponding form
+
+        - get user inputs from html form
+
+        - alert if non-null attributes aren't entered
+
+        - o/w use fetch to send req to corresponding route on server and insert new record into table 
+
+    */
+
+    /*
         ADD PROJECT FORM
     */
     var addProjectAccept = document.getElementById('add-project-accept')
@@ -342,7 +357,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
                 }).then(function(res) {
                     if (res.status == 409)
-                        alert("Please enter a different email")
+                        alert("Student with that email already exists. Please enter a different email")
                     else if (res.status == 200) {
                         clearAddStudentInputs()
                         window.location.href = "/students"
@@ -487,12 +502,6 @@ window.addEventListener('DOMContentLoaded', function () {
                         window.location.href = "/assignments"
                     }
                 })
-
-            // get update input field values and assignment_id
-
-            // return err if student email isnt filled (since cant be null)
-
-            // o/w send post request to server with input values and assignment_id as body
             }
         })
     }
@@ -707,49 +716,48 @@ window.addEventListener('DOMContentLoaded', function () {
     if (addTaskAccept) {
         addTaskAccept.addEventListener('click', function(event) {
             event.preventDefault()
-            var assignment = document.getElementById('add-task-assignment-id-input').value.trim()
+
+            var assignment = document.getElementById('add-task-assignment-id-input').value
             var title = document.getElementById('add-task-title-input').value.trim()
-            var description = document.getElementById('add-task-description-input').value.trim()
-            var due_date = document.getElementById('add-task-due-date-input').value.trim()
-            var is_complete = document.getElementById('add-task-is-complete-input').value.trim()
-            var has_citations = document.getElementById('add-task-has-citations-input').value.trim()
+            var desc = document.getElementById('add-task-description-input').value.trim()
+            var dueDate = document.getElementById('add-task-due-date-input').value
+            var isComplete = document.getElementById('add-task-is-complete-input').checked
+            var hasCitations = document.getElementById('add-task-has-citations-input').checked
 
-            if (!assignment || !title || !description) {
-                    alert("Please fill in all fields")
-                }
-                else {
-                    fetch("/addTask", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            assignment: assignment,
-                            title: title,
-                            description: description,
-                            due_date: due_date,
-                            is_complete: is_complete,
-                            has_citations: has_citations
-                        }), 
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-    
-                    }).then(function(res) {
-                        if (res.status == 409)
-                            alert("This task title is already assigned to this project")
-                        else if (res.status == 200) {
-                            window.location.href = "/tasks"
-                            clearAddTaskInputs()
-                        }
-                    })
-                }
-            })
-        }
-    // set event listener for add task button
+            if (!assignment || !title) {
+                alert("Please enter an assignment and title to this task")
+            }
+            else {
+                fetch("/addTask", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        assignment: assignment,
+                        title: title,
+                        desc: desc,
+                        dueDate: dueDate,
+                        isComplete: isComplete,
+                        hasCitations: hasCitations
+                    }), 
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
 
-    // get user inputs from html form
+                }).then(function(res) {
+                    if (res.status == 409)
+                        alert("Task with that assignment and title already exists. Please enter a different assignment or title")
+                    else if (res.status == 200) {
+                        window.location.href = "/tasks"
+                        clearAddTaskInputs()
+                    }
+                })
+            }
+        })
+    }
 
-    // alert if no assignment id or task title entered
-
-    // o/w send fetch req to 'addTask' (insert into tasks or alert if task with same assignment id and task title exists)
+    var addTaskCancel = document.getElementById('add-task-cancel')  
+    if (addTaskCancel) {
+        addTaskCancel.addEventListener('click', clearAddTaskInputs)
+    }  
 
 
     /*

@@ -1,3 +1,17 @@
+/*
+
+  CS340 PROJECT PORTFOLIO - DATA DEFINITION SQL QUERIES
+
+  PROJECT TITLE: Project Hive
+
+  MEMBERS: Kyle Thom and Jonah Cadiz
+
+  DESCRIPTION: 
+  This SQL file contains the definitions for each table in the Database Outline, 
+  along with their relationships, attributes, and sample data.
+
+*/
+
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
