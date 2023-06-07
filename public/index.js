@@ -703,37 +703,46 @@ window.addEventListener('DOMContentLoaded', function () {
     /*
         ADD TASK FORM
     */
-    app.post('/addTask', function(req, res) {
-    console.log("made it here");
-    var data = req.body
-    if (data.project == 0) 
-        data.project = 'NULL'
-   // get user input as req body
-   
-   var query1 = `SELECT task_id FROM Tasks ` +
-   `WHERE assignment_id = (SELECT assignment_id FROM Tasks WHERE assignment_id = '${data.assignment}') && title = ${data.title};`
-   var query2 = `INSERT INTO Tasks(assignment_id, title, description,due_date,is_complete,has_citations) VALUES ` + 
-   `(${data.assignment}, ${data.title}, ${data.description}, ${data.due_date},${data.is_complete}, ${data.has_citations});`
-   db.pool.query(query1, function(error, rows, fields) {
-    console.log(rows)
-    if (rows.length > 0) {
-        console.log("assigned task already exists")
-        res.sendStatus(409)
-    }
-    else {
-        db.pool.query(query2, function(error, rows, fields) {
-            console.log("made it here");
-            if (error) {
-                console.log(error)
-                res.sendStatus(400)
-            }
-            else {
-                res.sendStatus(200)
-            }
-        })        
-    } 
-})
-})
+    var addTaskAccept = document.getElementById('add-task-accept')
+    if (addTaskAccept) {
+        addTaskAccept.addEventListener('click', function(event) {
+            event.preventDefault()
+            var assignment = document.getElementById('add-task-assignment-id-input').value.trim()
+            var title = document.getElementById('add-task-title-input').value.trim()
+            var description = document.getElementById('add-task-description-input').value.trim()
+            var due_date = document.getElementById('add-task-due-date-input').value.trim()
+            var is_complete = document.getElementById('add-task-is-complete-input').value.trim()
+            var has_citations = document.getElementById('add-task-has-citations-input').value.trim()
+
+            if (!assignment || !title || !description) {
+                    alert("Please fill in all fields")
+                }
+                else {
+                    fetch("/addTask", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            assignment: assignment,
+                            title: title,
+                            description: description,
+                            due_date: due_date,
+                            is_complete: is_complete,
+                            has_citations: has_citations
+                        }), 
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+    
+                    }).then(function(res) {
+                        if (res.status == 409)
+                            alert("This task title is already assigned to this project")
+                        else if (res.status == 200) {
+                            window.location.href = "/tasks"
+                            clearAddTaskInputs()
+                        }
+                    })
+                }
+            })
+        }
     // set event listener for add task button
 
     // get user inputs from html form
