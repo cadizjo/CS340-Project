@@ -319,11 +319,35 @@ app.post('/addRole', function(req, res) {
 })
 
 app.post('/addTask', function(req, res) {
+    console.log("made it here");
+    var data = req.body
+    if (data.project == 0) 
+        data.project = 'NULL'
    // get user input as req body
    
-   // make query to check if task with the same assignment id and task title exist, if so return status error 409
-
-   // o/w insert new record with user inputted values and return status code 200
+   var query1 = `SELECT task_id FROM Tasks ` +
+   `WHERE assignment_id = (SELECT assignment_id FROM Tasks WHERE assignment_id = '${data.assignment}') && title = ${data.title};`
+   var query2 = `INSERT INTO Tasks(assignment_id, title, description,due_date,is_complete,has_citations) VALUES ` + 
+   `(${data.assignment}, ${data.title}, ${data.description}, ${data.due_date},${data.is_complete}, ${data.has_citations});`
+   db.pool.query(query1, function(error, rows, fields) {
+    console.log(rows)
+    if (rows.length > 0) {
+        console.log("assigned task already exists")
+        res.sendStatus(409)
+    }
+    else {
+        db.pool.query(query2, function(error, rows, fields) {
+            console.log("made it here");
+            if (error) {
+                console.log(error)
+                res.sendStatus(400)
+            }
+            else {
+                res.sendStatus(200)
+            }
+        })        
+    } 
+})
 })
 
 app.post('/addAssignedRole', function(req, res) {
