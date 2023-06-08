@@ -1,6 +1,14 @@
 /*
+    Citation Scope: NodeJS Express-based server, database connection setup, and Handlebar Templates
+    Date: 06/07/2023
+    Originality: Server and database connector setup copied from the the CS 340 starter code. Handlebar Templates adapt from the CS 340 starter code.
+    Source: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
+
+/*
     SETUP
 */
+
 var express = require('express');               // use express library for web server
 var app = express();                            // instantiate an express object to interact with the server in our code
 PORT = 4263;                                    // receives incoming requests on specified PORT
